@@ -1,0 +1,22 @@
+{
+  "id": "saving-combo",
+  "name": "省钱组合",
+  "oneLiner": "同读一份 per-call 成本台账，拦缓存、算预测、对账",
+  "members": [
+    "dsh-plugin-cache-guard",
+    "dsh-plugin-spend-forecast",
+    "dsh-plugin-cost-ledger"
+  ],
+  "why": [
+    "三家都读 cost-ledger 维护的 per-call token / 成本台账字段，口径一致不打架",
+    "cache-guard 命中即省一次调用，spend-forecast 直接消费台账算燃烧率"
+  ],
+  "installOrder": "按 members 顺序：cost-ledger 数据先立住，再装 cache-guard 与 spend-forecast",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含三个 id",
+    "/health 显示缓存命中；/ledger 有本月汇总；/forecast 与台账口径一致"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-20"
+}

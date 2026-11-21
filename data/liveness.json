@@ -1,0 +1,8 @@
+{
+  "asOf": "2026-11-21",
+  "source": "ecoscan 在线快照 + GitHub HEAD 复核",
+  "knownDead": [
+    "121212165/dsh-plugin-local-deep-search"
+  ],
+  "note": "F7 数据治理将据此降级/下架；M0 仅告警，避免好数据因外部站点波动变红"
+}

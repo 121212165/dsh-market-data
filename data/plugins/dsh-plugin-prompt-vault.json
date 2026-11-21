@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-prompt-vault",
+  "repo": "121212165/dsh-plugin-prompt-vault",
+  "npm": "@deepseek-ai/dsh-plugin-prompt-vault",
+  "name": "提示词库",
+  "oneLiner": "提示词弹药库：markdown 导入、标签、使用计数，自带 8 条中文种子提示词",
+  "category": "会话与知识库",
+  "entries": [
+    "/pv"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

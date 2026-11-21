@@ -1,0 +1,12 @@
+{
+  "id": "placeholder-only",
+  "name": "TODO",
+  "oneLiner": "待补",
+  "members": ["dsh-plugin-quota", "dsh-plugin-cost-ledger"],
+  "why": ["待补：这里以后写真实握手契约"],
+  "installOrder": "TBD",
+  "conflicts": [],
+  "verify": ["应该能用"],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

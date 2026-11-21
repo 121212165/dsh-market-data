@@ -1,0 +1,22 @@
+{
+  "id": "dsh-plugin-prompt-optimize",
+  "repo": "121212165/dsh-plugin-prompt-optimize",
+  "npm": "@deepseek-ai/dsh-plugin-prompt-optimize",
+  "name": "提示词优化",
+  "oneLiner": "提示词审查与改写：8 条本地规则出问题清单，模板重排生成改写稿（vault 存、本插件审）",
+  "category": "工具与质量",
+  "entries": [
+    "/opt",
+    "prompt_review",
+    "prompt_rewrite"
+  ],
+  "requires": [
+    "tools",
+    "llmMiddleware"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

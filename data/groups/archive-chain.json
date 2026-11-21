@@ -1,0 +1,22 @@
+{
+  "id": "archive-chain",
+  "name": "归档链",
+  "oneLiner": "一次 /archive 跑通导出 → 推送 → 检索",
+  "members": [
+    "dsh-plugin-transcript",
+    "dsh-plugin-obsidian-push",
+    "dsh-plugin-transcript-search"
+  ],
+  "why": [
+    "transcript 产出的 sessions/*.jsonl 是 obsidian-push 与 transcript-search 共同消费的契约文件",
+    "/archive 串联三家：导出 JSONL → 推送到 Obsidian → 立即可被 transcript-search 检索"
+  ],
+  "installOrder": "按 members 顺序：transcript → obsidian-push → transcript-search",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含三个 id",
+    "/archive 产出一份 JSONL；/push 能在目标库看到对应笔记；/find 能搜回该会话"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "dsh-plugin-quota",
+  "repo": "121212165/dsh-plugin-quota",
+  "npm": "@deepseek-ai/dsh-plugin-quota",
+  "name": "用量仪表",
+  "oneLiner": "实时用量仪表 + 下一步预估 + 预算刹车：每回合给模型一行实时 token/花费仪表，模型自己看得见、自己刹",
+  "category": "钱与用量",
+  "entries": [
+    "/qm",
+    "/qm-top",
+    "quota_meter"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

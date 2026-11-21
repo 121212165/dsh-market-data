@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-error-radar",
+  "repo": "121212165/dsh-plugin-error-radar",
+  "npm": "@deepseek-ai/dsh-plugin-error-radar",
+  "name": "错误雷达",
+  "oneLiner": "错误率/连败/p95 雷达，区分\"系统性故障\"和\"抖动\"",
+  "category": "工具与质量",
+  "entries": [
+    "/radar",
+    "/health"
+  ],
+  "requires": [
+    "tools",
+    "llmMiddleware"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "plugin-dev",
+  "name": "插件开发",
+  "oneLiner": "forge 产物过 verify-plugin，cards 负责渲染交付",
+  "members": [
+    "dsh-plugin-plugin-forge",
+    "dsh-plugin-prompt-optimize",
+    "dsh-plugin-family-cards"
+  ],
+  "why": [
+    "plugin-forge 的 forgeFiles() 产物必须过 dsh-family-tools/tools/verify-plugin.mjs 的质量门",
+    "prompt-optimize 改写 /market 入口提示词，family-cards 把结果渲染成家族统一卡片"
+  ],
+  "installOrder": "按 members 顺序：plugin-forge → prompt-optimize → family-cards",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含三个 id",
+    "/forge 产出插件骨架且过 verify-plugin；/cards 渲染出卡片"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-19"
+}

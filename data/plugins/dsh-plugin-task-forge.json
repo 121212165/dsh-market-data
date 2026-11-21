@@ -1,0 +1,24 @@
+{
+  "id": "dsh-plugin-task-forge",
+  "repo": "121212165/dsh-plugin-task-forge",
+  "npm": "@deepseek-ai/dsh-plugin-task-forge",
+  "name": "任务工坊",
+  "oneLiner": "把大白话编译成任务书，跨窗口 AI 无损交接：回读握手逼出理解损耗，缺口闭环、版本号跨窗口唯一权威",
+  "category": "编排与界面",
+  "entries": [
+    "/forge",
+    "/relay",
+    "/ack",
+    "/answer",
+    "/forge-list"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

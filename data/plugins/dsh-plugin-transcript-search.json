@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-transcript-search",
+  "repo": "121212165/dsh-plugin-transcript-search",
+  "npm": "@deepseek-ai/dsh-plugin-transcript-search",
+  "name": "转录检索",
+  "oneLiner": "跨会话全文搜索，与 transcript 的 JSONL 契约互通",
+  "category": "会话与知识库",
+  "entries": [
+    "/find",
+    "session_search"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

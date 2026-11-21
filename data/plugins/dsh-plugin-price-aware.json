@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-price-aware",
+  "repo": "121212165/dsh-plugin-price-aware",
+  "npm": "@deepseek-ai/dsh-plugin-price-aware",
+  "name": "价格感知",
+  "oneLiner": "价格感知注入（宿主侧参考实现风格）",
+  "category": "钱与用量",
+  "entries": [
+    "/price-aware"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

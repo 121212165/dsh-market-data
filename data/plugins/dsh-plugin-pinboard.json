@@ -1,0 +1,22 @@
+{
+  "id": "dsh-plugin-pinboard",
+  "repo": "121212165/dsh-plugin-pinboard",
+  "npm": "@deepseek-ai/dsh-plugin-pinboard",
+  "name": "钉板",
+  "oneLiner": "置顶便签注入系统提示：中途加便签下一回合生效，不用重启",
+  "category": "会话与知识库",
+  "entries": [
+    "/pin",
+    "/pins",
+    "pin_add"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

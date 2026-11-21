@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-cost-ledger",
+  "repo": "121212165/dsh-plugin-cost-ledger",
+  "npm": "@deepseek-ai/dsh-plugin-cost-ledger",
+  "name": "成本台账",
+  "oneLiner": "花费持久台账：按月 JSONL、月报、CSV 导出、环比结论",
+  "category": "钱与用量",
+  "entries": [
+    "/ledger"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

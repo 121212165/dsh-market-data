@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/121212165/dsh-market-data/schema/index.schema.json",
+  "title": "DSH market index (read contract) — same shape as the embedded snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "source", "plugins", "groups"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "enum": [1] },
+    "generatedAt": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "minLength": 1 },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "repo", "name", "oneLiner", "category", "entries", "requires", "dshRange", "license", "author", "borrowedFrom", "verifiedAt"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^dsh-plugin-[a-z0-9-]+$" },
+          "repo": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+          "npm": { "type": "string" },
+          "name": { "type": "string", "minLength": 1 },
+          "oneLiner": { "type": "string", "minLength": 1 },
+          "category": { "type": "string", "minLength": 1 },
+          "entries": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "requires": { "type": "array", "items": { "type": "string" } },
+          "dshRange": { "type": "string", "minLength": 1 },
+          "license": { "type": "string", "enum": ["MIT", "Apache-2.0", "BSD-3-Clause", "ISC"] },
+          "author": { "type": "string", "minLength": 1 },
+          "borrowedFrom": { "type": "array", "items": { "type": "string" } },
+          "verifiedAt": { "type": "string", "minLength": 1 },
+          "stars": { "type": "integer" },
+          "votes": { "type": "integer" }
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "oneLiner", "members", "why", "installOrder", "conflicts", "verify", "curator", "updatedAt"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string", "minLength": 1 },
+          "oneLiner": { "type": "string", "minLength": 1 },
+          "members": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "why": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+          "installOrder": { "type": "string", "minLength": 1 },
+          "conflicts": { "type": "array", "items": { "type": "string" } },
+          "verify": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+          "curator": { "type": "string", "enum": ["editor", "community"] },
+          "updatedAt": { "type": "string", "minLength": 1 },
+          "votes": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

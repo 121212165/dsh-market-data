@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-local-deep-search",
+  "repo": "121212165/dsh-plugin-local-deep-search",
+  "npm": "@deepseek-ai/dsh-plugin-local-deep-search",
+  "name": "本地深搜",
+  "oneLiner": "本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网",
+  "category": "扫描与研究",
+  "entries": [
+    "/local-research",
+    "local_deep_search"
+  ],
+  "requires": [
+    "tools"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

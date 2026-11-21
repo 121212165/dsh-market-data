@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-obsidian-push",
+  "repo": "121212165/dsh-plugin-obsidian-push",
+  "npm": "@deepseek-ai/dsh-plugin-obsidian-push",
+  "name": "Obsidian 推送",
+  "oneLiner": "转录推送 Obsidian 库：frontmatter + 内容哈希幂等去重，vault 自动发现；`/archive` 一键归档链",
+  "category": "会话与知识库",
+  "entries": [
+    "/obsidian-push",
+    "/archive"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

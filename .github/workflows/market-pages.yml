@@ -1,0 +1,55 @@
+name: market / build & Pages
+
+# M4 acceptance: after merge, the page is generated from the merged index.json,
+# so index.json and the site can never drift. Copy-to-clipboard is client-side.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'site/**'
+      - 'scripts/**'
+      - '.github/workflows/market-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: market-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Regenerate the read contract when the M0 builder is present.
+      - name: Build index (if builder present)
+        run: |
+          if [ -f scripts/build-index.mjs ]; then node scripts/build-index.mjs; fi
+
+      # Site is deterministic: same index.json -> byte-identical site/index.html.
+      - name: Build site from index.json
+        run: node scripts/build-site.mjs
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

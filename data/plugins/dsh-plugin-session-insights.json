@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-session-insights",
+  "repo": "121212165/dsh-plugin-session-insights",
+  "npm": "@deepseek-ai/dsh-plugin-session-insights",
+  "name": "会话洞察",
+  "oneLiner": "跨会话统计总览：会话数、token、趋势",
+  "category": "会话与知识库",
+  "entries": [
+    "/insights"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

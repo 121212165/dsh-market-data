@@ -1,0 +1,12 @@
+{
+  "id": "missing-why",
+  "name": "缺 why 坏样本",
+  "oneLiner": "故意缺 why，用于验证真实握手契约门禁报红",
+  "members": ["dsh-plugin-quota", "dsh-plugin-cost-ledger"],
+  "why": [],
+  "installOrder": "按 members 顺序",
+  "conflicts": [],
+  "verify": ["/qm 有输出", "/ledger 有月报"],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

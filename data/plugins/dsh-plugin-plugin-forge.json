@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-plugin-forge",
+  "repo": "121212165/dsh-plugin-plugin-forge",
+  "npm": "@deepseek-ai/dsh-plugin-plugin-forge",
+  "name": "插件锻造",
+  "oneLiner": "插件脚手架：生成过 verify-plugin.mjs 的新插件骨架，validate 模式点名现有插件缺什么",
+  "category": "构建与开发工具",
+  "entries": [
+    "/forge",
+    "forge_new",
+    "forge_check"
+  ],
+  "requires": [
+    "tools"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

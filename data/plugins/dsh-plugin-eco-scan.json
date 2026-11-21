@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-eco-scan",
+  "repo": "121212165/dsh-plugin-eco-scan",
+  "npm": "@deepseek-ai/dsh-plugin-eco-scan",
+  "name": "生态扫描",
+  "oneLiner": "dsh 插件生态市场扫描器：topic 全仓 + npm 周下载差值 + 增长评分",
+  "category": "扫描与研究",
+  "entries": [
+    "/eco-scan",
+    "eco_scan"
+  ],
+  "requires": [
+    "tools"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

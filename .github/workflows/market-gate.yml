@@ -1,0 +1,32 @@
+name: market / PR gate
+
+# M4 acceptance: a PR whose data fields are only placeholders is rejected here.
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'schema/**'
+      - 'scripts/check-pr.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Hard gate: placeholder / missing-why / vague-verify / bad-json.
+      # Emits a JSON report; exit 1 blocks the merge.
+      - name: Reject placeholder-only PRs
+        run: node scripts/check-pr.mjs
+
+      # Dataset gate maintained by the M0 data layer (index/schema/id rules).
+      - name: Validate dataset
+        run: node scripts/validate.mjs

@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-fact-vault",
+  "repo": "121212165/dsh-plugin-fact-vault",
+  "npm": "@deepseek-ai/dsh-plugin-fact-vault",
+  "name": "事实库",
+  "oneLiner": "事实便签库：登记可复用的项目事实，tag 加权检索",
+  "category": "会话与知识库",
+  "entries": [
+    "/fact",
+    "fact_find"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

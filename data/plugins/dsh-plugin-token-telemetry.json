@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-token-telemetry",
+  "repo": "121212165/dsh-plugin-token-telemetry",
+  "npm": "@deepseek-ai/dsh-plugin-token-telemetry",
+  "name": "Token 遥测",
+  "oneLiner": "token 遥测 web 面板（官方 useProjection 模式示范）",
+  "category": "钱与用量",
+  "entries": [
+    "/token-telemetry"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "handoff-duo",
+  "name": "交接协作",
+  "oneLiner": "系统提示注入 + 跨窗口事实检索，换窗口不丢上下文",
+  "members": [
+    "dsh-plugin-task-forge",
+    "dsh-plugin-pinboard",
+    "dsh-plugin-fact-vault"
+  ],
+  "why": [
+    "task-forge 通过 systemPrompt.section 注入待编译任务，pinboard 用同一通道注入置顶事实",
+    "fact-vault 从跨会话 JSONL 检索同一批字段，并通过出处字段找回来源"
+  ],
+  "installOrder": "按 members 顺序：task-forge → pinboard → fact-vault",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含三个 id",
+    "/pin 后新开会话系统提示含该条；/fact 能检索到带出处的同一事实"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-20"
+}

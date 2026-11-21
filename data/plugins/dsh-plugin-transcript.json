@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-transcript",
+  "repo": "121212165/dsh-plugin-transcript",
+  "npm": "@deepseek-ai/dsh-plugin-transcript",
+  "name": "会话转录",
+  "oneLiner": "会话转录归档：user/assistant/tool 全量落 JSONL → Markdown，接 Obsidian 工作流",
+  "category": "会话与知识库",
+  "entries": [
+    "/transcript"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

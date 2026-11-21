@@ -1,0 +1,15 @@
+{
+  "id": "dsh-plugin-quota",
+  "repo": "121212165/dsh-plugin-quota",
+  "npm": "dsh-plugin-quota",
+  "name": "重复 id 坏样本",
+  "oneLiner": "故意与 data/plugins/dsh-plugin-quota.json 同 id，用于验证重复门禁报红",
+  "category": "钱与用量",
+  "entries": ["/qm-bad"],
+  "requires": ["tools"],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

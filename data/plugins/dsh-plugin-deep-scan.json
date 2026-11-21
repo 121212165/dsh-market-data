@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-deep-scan",
+  "repo": "121212165/dsh-plugin-deep-scan",
+  "npm": "@deepseek-ai/dsh-plugin-deep-scan",
+  "name": "深度扫描",
+  "oneLiner": "GitHub 赛道深度扫描器：多词四通道搜索 + 自动挖 topic 迭代，止损规则内置",
+  "category": "扫描与研究",
+  "entries": [
+    "/deep-scan",
+    "deep_scan"
+  ],
+  "requires": [
+    "tools"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

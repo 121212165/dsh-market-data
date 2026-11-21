@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-family-cards",
+  "repo": "121212165/dsh-plugin-family-cards",
+  "npm": "@deepseek-ai/dsh-plugin-family-cards",
+  "name": "家族卡片",
+  "oneLiner": "家族 11 个工具的 web UI 卡片渲染器（补官方 Client 不消费 presentCall 的缺口）",
+  "category": "编排与界面",
+  "entries": [
+    "/family-cards"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

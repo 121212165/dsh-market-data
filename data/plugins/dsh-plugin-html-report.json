@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-html-report",
+  "repo": "121212165/dsh-plugin-html-report",
+  "npm": "@deepseek-ai/dsh-plugin-html-report",
+  "name": "HTML 报告",
+  "oneLiner": "会话渲染成自包含 HTML 报告（深色模式、无外链），分享/归档用",
+  "category": "会话与知识库",
+  "entries": [
+    "/report"
+  ],
+  "requires": [
+    "tools",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

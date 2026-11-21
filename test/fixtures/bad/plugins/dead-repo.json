@@ -1,0 +1,15 @@
+{
+  "id": "dsh-plugin-dead-link",
+  "repo": "121212165/dsh-plugin-does-not-exist-xyz-404",
+  "npm": "dsh-plugin-dead-link",
+  "name": "死链坏样本",
+  "oneLiner": "故意写一个不存在的 repo，用于验证在线存活检查报红",
+  "category": "工具与质量",
+  "entries": ["/dead"],
+  "requires": ["commands"],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

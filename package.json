@@ -1,0 +1,14 @@
+{
+  "name": "dsh-market-data",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Market data for dsh-plugin-market: plugin/group JSON, schema, validation and index build.",
+  "scripts": {
+    "seed": "node scripts/seed.mjs",
+    "build": "node scripts/build-index.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "npm run build && npm run validate"
+  },
+  "license": "MIT"
+}

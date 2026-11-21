@@ -1,0 +1,22 @@
+{
+  "id": "starter-three",
+  "name": "开局三件套",
+  "oneLiner": "先看见钱，再看见所有 IDE，最后能跨窗口派活",
+  "members": [
+    "dsh-plugin-quota",
+    "dsh-plugin-ide-hub",
+    "dsh-plugin-task-forge"
+  ],
+  "why": [
+    "task-forge 直接读取 quota 发布的 summary.json 预算契约，派活前先卡预算",
+    "ide-hub 的 /today 聚合 quota / cost-ledger / task-forge / tool-trace 四家事实，三件套装完即可看到统一视图"
+  ],
+  "installOrder": "按 members 顺序：quota → ide-hub → task-forge",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含三个 id",
+    "/qm 有输出；/ide-hub 能列出至少 1 个 IDE；/forge 只回显不落盘"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

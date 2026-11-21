@@ -1,0 +1,21 @@
+{
+  "id": "eco-radar",
+  "name": "生态雷达",
+  "oneLiner": "同一套 GitHub 搜索通道与止损规则，先扫后深挖",
+  "members": [
+    "dsh-plugin-eco-scan",
+    "dsh-plugin-deep-scan"
+  ],
+  "why": [
+    "eco-scan 与 deep-scan 共用 GitHub 搜索通道与搜索止损规则（超时/配额/去重）",
+    "eco-scan 先出候选仓清单，deep-scan 按同一 repo id 做源码级复核"
+  ],
+  "installOrder": "按 members 顺序：eco-scan → deep-scan",
+  "conflicts": [],
+  "verify": [
+    "dump-config 含两个 id",
+    "/eco-scan 产出候选清单；/deep-scan 对同一 repo id 给出结构清单"
+  ],
+  "curator": "editor",
+  "updatedAt": "2026-11-18"
+}

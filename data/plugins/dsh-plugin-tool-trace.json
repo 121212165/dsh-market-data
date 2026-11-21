@@ -1,0 +1,20 @@
+{
+  "id": "dsh-plugin-tool-trace",
+  "repo": "121212165/dsh-plugin-tool-trace",
+  "npm": "@deepseek-ai/dsh-plugin-tool-trace",
+  "name": "工具追踪",
+  "oneLiner": "工具调用追踪：做了什么、慢在哪，只记大小不记内容",
+  "category": "工具与质量",
+  "entries": [
+    "/tools-stats"
+  ],
+  "requires": [
+    "tools",
+    "llmMiddleware"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "dsh-plugin-cache-guard",
+  "repo": "121212165/dsh-plugin-cache-guard",
+  "npm": "@deepseek-ai/dsh-plugin-cache-guard",
+  "name": "缓存护栏",
+  "oneLiner": "前缀缓存健康守卫：检测前缀被改写导致的缓存失效多花钱，提醒模型住手",
+  "category": "工具与质量",
+  "entries": [
+    "/health",
+    "cache_status"
+  ],
+  "requires": [
+    "tools",
+    "llmMiddleware"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}

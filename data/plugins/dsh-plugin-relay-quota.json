@@ -1,0 +1,22 @@
+{
+  "id": "dsh-plugin-relay-quota",
+  "repo": "121212165/dsh-plugin-relay-quota",
+  "npm": "@deepseek-ai/dsh-plugin-relay-quota",
+  "name": "中转额度",
+  "oneLiner": "查任意 OpenAI 兼容中转的余额/用量",
+  "category": "钱与用量",
+  "entries": [
+    "/quota",
+    "quota_check"
+  ],
+  "requires": [
+    "tools",
+    "systemPrompt",
+    "sessionProjections"
+  ],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [],
+  "verifiedAt": "2026-11-21"
+}
