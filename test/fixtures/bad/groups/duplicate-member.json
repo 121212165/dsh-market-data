@@ -1,0 +1,14 @@
+{
+  "id": "duplicate-member",
+  "name": "重复成员坏样本",
+  "oneLiner": "members 重复列出同一插件，用于验证 DUPLICATE_MEMBER",
+  "members": ["dsh-plugin-quota", "dsh-plugin-quota"],
+  "why": [
+    "quota 发布 summary.json 预算契约，重复安装会双计配额"
+  ],
+  "installOrder": "按 members 顺序",
+  "conflicts": [],
+  "verify": ["dump-config 只出现一个 quota id"],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

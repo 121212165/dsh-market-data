@@ -1,0 +1,14 @@
+{
+  "id": "unknown-member",
+  "name": "未知成员坏样本",
+  "oneLiner": "members 混入不存在的插件 id，用于验证 UNKNOWN_MEMBER",
+  "members": ["dsh-plugin-quota", "dsh-plugin-ghost"],
+  "why": [
+    "quota 发布 summary.json 预算契约，ghost 声称读取同一字段"
+  ],
+  "installOrder": "按 members 顺序",
+  "conflicts": [],
+  "verify": ["dump-config 含两个 id"],
+  "curator": "editor",
+  "updatedAt": "2026-11-21"
+}

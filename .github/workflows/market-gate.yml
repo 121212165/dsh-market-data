@@ -7,6 +7,7 @@ on:
       - 'data/**'
       - 'schema/**'
       - 'scripts/check-pr.mjs'
+      - 'scripts/catalog.source.json'
 
 permissions:
   contents: read
@@ -22,8 +23,10 @@ jobs:
         with:
           node-version: '22'
 
-      # Hard gate: placeholder / missing-why / vague-verify / bad-json.
-      # Emits a JSON report; exit 1 blocks the merge.
+      # Hard gate: placeholder / missing-why / vague-verify / bad-json /
+      # unknown-member / duplicate-id. Never add `npm run seed` here: it
+      # regenerates data/ from scripts/catalog.source.json and would overwrite
+      # community submissions. Emits a JSON report; exit 1 blocks the merge.
       - name: Reject placeholder-only PRs
         run: node scripts/check-pr.mjs
 
