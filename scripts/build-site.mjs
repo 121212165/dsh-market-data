@@ -32,10 +32,19 @@ const esc = (s) => String(s ?? '')
 
 const INSTALL = (id) => `/market install ${id}`;
 
+/** Governance badges rendered from the index fields written by F7. */
+export function governanceBadges(p) {
+  const badges = [];
+  if (p.demotionReason) badges.push(`<span class="badge demoted" title="${esc(p.demotionReason)}">已降级 · ${esc(p.demotionReason)}</span>`);
+  if (p.staleReason) badges.push(`<span class="badge stale" title="${esc(p.staleReason)}">陈旧 · ${esc(p.staleReason)}</span>`);
+  return badges.length ? `<div class="flags">${badges.join('')}</div>` : '';
+}
+
 function groupCard(group, pluginById) {
   const members = (group.members || []).map((id) => {
     const p = pluginById.get(id);
-    return `<li><code>${esc(id)}</code>${p ? `<span class="sub">${esc(p.oneLiner)}</span>` : ''}</li>`;
+    const flag = p?.demotionReason ? ' <span class="badge demoted">已降级</span>' : '';
+    return `<li><code>${esc(id)}</code>${flag}${p ? `<span class="sub">${esc(p.oneLiner)}</span>` : ''}</li>`;
   }).join('');
   const why = (group.why || []).map((line) => `<li>${esc(line)}</li>`).join('');
   const verify = (group.verify || []).map((line) => `<li>${esc(line)}</li>`).join('');
@@ -59,11 +68,21 @@ function groupCard(group, pluginById) {
 
 function pluginRow(p) {
   return `<tr data-plugin="${esc(p.id)}">
-    <td><code>${esc(p.id)}</code><div class="sub">${esc(p.name)} · ${esc(p.oneLiner)}</div></td>
+    <td><code>${esc(p.id)}</code><div class="sub">${esc(p.name)} · ${esc(p.oneLiner)}</div>${governanceBadges(p)}</td>
     <td>${esc(p.category)}</td>
     <td>${esc((p.entries || []).join(' '))}</td>
     <td><a href="https://github.com/${esc(p.repo)}" rel="noopener">${esc(p.repo)}</a><div class="sub">${esc(p.license)} · 核于 ${esc(p.verifiedAt)}</div></td>
     <td class="votes" data-votes="${Number.isInteger(p.votes) ? p.votes : 0}">${Number.isInteger(p.votes) ? p.votes : '—'}</td>
+  </tr>`;
+}
+
+/** Demoted entries keep their data but leave the main list; a separate section
+ *  still states the reason so recovery / review stays possible (plan §7 F7). */
+function demotedRow(p) {
+  return `<tr data-plugin="${esc(p.id)}" data-demoted="true" data-demotion-reason="${esc(p.demotionReason)}">
+    <td><code>${esc(p.id)}</code><div class="sub">${esc(p.name)} · ${esc(p.oneLiner)}</div></td>
+    <td><span class="badge demoted" title="${esc(p.demotionReason)}">${esc(p.demotionReason)}</span></td>
+    <td><a href="https://github.com/${esc(p.repo)}" rel="noopener">${esc(p.repo)}</a></td>
   </tr>`;
 }
 
@@ -73,6 +92,10 @@ export function renderHtml(rawIndex, { sourceSha256 = '', builtAt = '' } = {}) {
   const groups = index.groups
     .slice()
     .sort((a, b) => (a.curator === b.curator ? 0 : a.curator === 'editor' ? -1 : 1));
+  // F7: 失效条目不进首页主列表，但仍随 index 落盘并在单独区块标注原因。
+  const activePlugins = index.plugins.filter((p) => !p.demotionReason);
+  const demotedPlugins = index.plugins.filter((p) => p.demotionReason);
+  const stalePlugins = index.plugins.filter((p) => p.staleReason);
   const dataJson = JSON.stringify(index).replace(/</g, '\\u003c');
 
   return `<!doctype html>
@@ -98,6 +121,12 @@ h1{font-size:26px;margin:0}h2{font-size:19px;margin:36px 0 12px}h3{font-size:16p
 .lead{margin:0;color:var(--muted)}
 .badge{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap;color:var(--muted)}
 .badge.editor{border-color:var(--accent);color:var(--accent);background:var(--chip)}
+/* F7 治理徽标：复用 §5.1「超 24h 标快照」的口径，只标注、不删条目。 */
+.badge.demoted{border-color:#b23c3c;color:#b23c3c;background:#fdf0f0}
+.badge.stale{border-color:#b26a00;color:#b26a00;background:#fdf6e8}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.demoted-note{color:#b23c3c;font-size:13px;margin:4px 0 12px}
+@media(prefers-color-scheme:dark){.badge.demoted{background:#3a2222}.badge.stale{background:#3a3020}}
 .members ol{margin:0;padding-left:20px}.members li{margin:4px 0;overflow-wrap:anywhere}
 .sub{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
 details{border-top:1px solid var(--line);padding-top:8px}
@@ -122,15 +151,22 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
     <span class="stamp" id="generated-at" data-generated-at="${esc(index.generatedAt)}">数据生成于 ${esc(index.generatedAt || '未知')}</span>
   </header>
   <p class="intro">选组 → 在 dsh 里运行安装命令 → 装完按「怎么验」自检。本站只读、不需要账号；安装只能发生在 dsh 会话内。</p>
+  <p class="tag" id="governance-summary" data-demoted="${demotedPlugins.length}" data-stale="${stalePlugins.length}">数据治理：已降级 ${demotedPlugins.length} · 陈旧 ${stalePlugins.length}（404 仓持续 7 天降级，入口恢复后自动回升）</p>
 
   <h2>编辑精选与社区组（${groups.length}）</h2>
   <div class="grid" id="groups">
     ${groups.map((g) => groupCard(g, pluginById)).join('\n    ')}
   </div>
 
-  <h2>全部插件（${index.plugins.length}）</h2>
-  <table><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>票数</th></tr></thead>
-  <tbody>${index.plugins.map(pluginRow).join('\n  ')}</tbody></table>
+  <h2>全部插件（${activePlugins.length}）</h2>
+  <table id="active-plugins"><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>票数</th></tr></thead>
+  <tbody>${activePlugins.map(pluginRow).join('\n  ')}</tbody></table>
+
+  ${demotedPlugins.length ? `
+  <h2>已降级的失效条目（${demotedPlugins.length}）</h2>
+  <p class="demoted-note">仓库返回 404 已超过 7 天，已从首页主列表移除；条目仍保留在数据仓中，仓库恢复后会自动回到主列表。</p>
+  <table id="demoted-plugins"><thead><tr><th>插件 / 说明</th><th>降级原因</th><th>仓库</th></tr></thead>
+  <tbody>${demotedPlugins.map(demotedRow).join('\n  ')}</tbody></table>` : ''}
 
   <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>${esc(sourceSha256.slice(0, 12))}</code>）。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>
 </div>

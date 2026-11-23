@@ -62,3 +62,18 @@ node --test test/vote-snapshot.test.mjs
 规则：按 GitHub `databaseId`（缺则 login 小写）去重 → **一人一票**；账号龄 < 30 天（可用 `--min-account-age-days` 调整）不计；`createdAt` 缺失/非法失败关闭；非 👍 reaction 不计。产物 `data/votes.json` 同时提供每个插件的 `votes` 与 `generatedAt`，`build-index` 用它作为**唯一来源**写入 `index.json`（超 24h 页面自动标「快照」）。`npm run validate` 会校验 votes 契约、孤儿票与汇总一致性。
 
 `.github/workflows/vote-snapshot.yml` 定时（6h）+ 手动抓取并提交刷新后的 `votes.json` / `index.json` / `snapshot.json` / `site/index.html`。插件侧 `/market vote` 与未登录 `gh auth login` 指引是跨仓后续项，不在本仓。
+
+## 数据治理（F7）
+
+```bash
+node scripts/snapshot.mjs                                              # 真跑：GitHub stars + npm 周下载（需网络）
+node scripts/snapshot.mjs --fixture test/fixtures/snapshots/metrics.json --out data/snapshots
+node scripts/build-index.mjs && node scripts/build-site.mjs            # 死链降级 / 陈旧标记写进 index 与页面
+node --test                                                            # 42 检查全绿（含 404 → 7 天降级用例）
+```
+
+- 每天写 `data/snapshots/<YYYY-MM-DD>.json` + `latest.json`。只有 HTTP **404** 记为 `deadSince`（保留首次发现日，仓库恢复自动清除）；超时 / 403 / 429 视为失败降级，沿用上次好值，不误判死链。
+- `build-index` 在 `now - deadSince >= 7` 天时写 `demotionReason`，把条目排到首页末尾；`build-site` 把它移出主列表并放进「已降级的失效条目」区块，页面显示降级原因徽标。**不删条目、保留恢复路径**；`N` 天（默认 30，可用 `staleDays` 调整）无更新写 `staleReason` 并显示陈旧徽标。
+- 快照缺失 / 损坏不崩，也不触发降级（fail-safe）；「超 24h 标快照」的页首口径沿用 §5.1。
+- `.github/workflows/daily-snapshot.yml` 每天 02:23 UTC 定时抓取并回写快照 / index / 页面。
+- 诚实声明：工作区无远程，**定时任务未实跑**；`data/snapshots/` 里的基线快照由 fixture 模式生成（见其 `source` 字段），用于离线复现「一个 404 仓第 7 天降级并标注原因」，真实定时任务在首次 push 后由 Actions 接管。
