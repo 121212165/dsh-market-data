@@ -9,7 +9,7 @@
  *
  * Exports pure helpers so tests can feed fixtures without touching the network.
  */
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { checkRepo, validateSchema, isIsomorphic, mapLimit } from './lib.mjs';
@@ -177,6 +177,29 @@ async function main() {
   const plugins = readDir('plugins');
   const groups = readDir('groups');
   const errors = validateDataset({ plugins, groups, categories: readCategories(), schemas: loadSchemas() });
+
+  // F2: a committed vote snapshot must satisfy its contract, reference only
+  // known plugin ids, and keep the summary in sync with the per-entry counts.
+  const votesFile = join(root, 'data', 'votes.json');
+  if (existsSync(votesFile)) {
+    try {
+      const votes = JSON.parse(readFileSync(votesFile, 'utf8'));
+      const votesSchema = JSON.parse(readFileSync(join(root, 'schema', 'votes.schema.json'), 'utf8'));
+      for (const message of validateSchema(votes, votesSchema, 'data/votes.json')) errors.push(message);
+      const pluginIds = new Set(plugins.map(({ data }) => data?.id));
+      for (const entry of votes.entries ?? []) {
+        if (!pluginIds.has(entry.pluginId)) {
+          errors.push(`data/votes.json: orphan-vote — ${entry.pluginId} is not in data/plugins`);
+        }
+      }
+      const sum = (votes.entries ?? []).reduce((n, entry) => n + (entry.votes ?? 0), 0);
+      if (votes.summary && sum !== votes.summary.countedVotes) {
+        errors.push(`data/votes.json: summary — countedVotes(${votes.summary.countedVotes}) != entries sum(${sum})`);
+      }
+    } catch (error) {
+      errors.push(`data/votes.json: ${error.message}`);
+    }
+  }
 
   // M0 验收：snapshot 与 index 必须同构，且 index 覆盖全部 seed 实体。
   try {

@@ -1,0 +1,112 @@
+name: 插件投稿 (plugin submission)
+description: 投稿一个 dsh 插件；Action 会先跑校验与 verify-plugin，通过后自动开 PR
+title: "[投稿] "
+labels: [submission]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        谢谢投稿！请填完下面 **三个必填字段**。提交后 Action 会：
+        1. 解析本 Issue → 生成 `data/plugins/dsh-plugin-<id>.json` 草稿；
+        2. 复用 `scripts/validate.mjs` + `scripts/check-pr.mjs` 的规则做离线校验（缺 license / 缺借鉴来源 / 重复 id 一律拒绝）；
+        3. 对 `repo` 指向的插件仓跑 vendored `verify-plugin`；
+        4. 全绿后自动开一个带校验结果 PR 正文的 PR。
+        编辑本 Issue 可重新触发校验。
+
+  - type: input
+    id: repo
+    attributes:
+      label: "repo（必填）"
+      description: "GitHub 仓库，格式 `owner/name`（例：`121212165/dsh-plugin-my-plugin`）。插件 id 由仓库名推导为 `dsh-plugin-<name>`。"
+      placeholder: 121212165/dsh-plugin-my-plugin
+    validations:
+      required: true
+      regex: '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'
+      error_message: "repo 必须是 owner/name 格式，只含字母、数字、_ . -，不要带 https:// 或末尾斜杠。"
+
+  - type: input
+    id: license
+    attributes:
+      label: "license（必填）"
+      description: "开源许可证，只接受 `MIT` / `Apache-2.0` / `BSD-3-Clause` / `ISC`。缺 license 的投稿会被直接拒绝。"
+      placeholder: MIT
+    validations:
+      required: true
+      regex: '^(MIT|Apache-2\.0|BSD-3-Clause|ISC)$'
+      error_message: "license 只能是 MIT、Apache-2.0、BSD-3-Clause 或 ISC（大小写按示例写）。"
+
+  - type: textarea
+    id: borrowed-from
+    attributes:
+      label: "借鉴来源表（必填）"
+      description: |
+        用 Markdown 表格列出至少一行真实来源：| repo | 借鉴了什么 | 许可 |。
+        只保留表头/分隔行不算填写；无法说明借鉴来源请写“无（完全原创）”作为一行。
+      value: |
+        | repo | 借鉴了什么 | 许可 |
+        | --- | --- | --- |
+        | 121212165/dsh-plugin-quota | 配额读取的字段契约 | MIT |
+      render: markdown
+    validations:
+      required: true
+      regex: '\|[^|\n]+\|[^|\n]+\|'
+      error_message: "借鉴来源表至少要有 1 行数据（repo / 借鉴了什么 / 许可），不能只留表头。"
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        以下选填；留空时 Action 会用合理默认值生成草稿（不写占位词）。
+
+  - type: input
+    id: name
+    attributes:
+      label: "显示名称（选填）"
+      description: "插件中文/英文显示名；留空取仓库名。"
+      placeholder: 我的插件
+
+  - type: input
+    id: one-liner
+    attributes:
+      label: "一句话介绍（选填）"
+      description: "一句话说明能力；留空生成「社区投稿：<repo>」。"
+      placeholder: 做一件具体的事，带入口和产出
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "分类（选填）"
+      description: "留空时默认「工具与质量」。"
+      options:
+        - 会话与知识库
+        - 钱与用量
+        - 工具与质量
+        - 扫描与研究
+        - 编排与界面
+        - 构建与开发工具
+
+  - type: input
+    id: entries
+    attributes:
+      label: "入口（选填）"
+      description: "命令/工具入口，用逗号或空格分隔；留空生成 `/<name>`。"
+      placeholder: /my-plugin, my_plugin
+
+  - type: input
+    id: npm
+    attributes:
+      label: "npm 包名（选填）"
+      placeholder: "@scope/dsh-plugin-my-plugin"
+
+  - type: input
+    id: dsh-range
+    attributes:
+      label: "dsh 版本范围（选填）"
+      placeholder: ">=0.1.2-rc.1 <0.2.0"
+
+  - type: input
+    id: author
+    attributes:
+      label: "作者（选填）"
+      description: "留空取 repo 的 owner。"
+      placeholder: 121212165

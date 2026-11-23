@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/121212165/dsh-market-data/schema/votes.schema.json",
+  "title": "F2 discussion reaction vote snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "source", "repository", "category", "reaction", "accountAgeDaysMin", "summary", "entries"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "enum": [1] },
+    "generatedAt": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "minLength": 1 },
+    "repository": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "reaction": { "type": "string", "enum": ["THUMBS_UP"] },
+    "accountAgeDaysMin": { "type": "integer" },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["discussions", "matchedDiscussions", "unmatchedDiscussions", "rawReactions", "countedVotes", "duplicateVotes", "underAgeVotes", "invalidVotes"],
+      "properties": {
+        "discussions": { "type": "integer" },
+        "matchedDiscussions": { "type": "integer" },
+        "unmatchedDiscussions": { "type": "integer" },
+        "rawReactions": { "type": "integer" },
+        "countedVotes": { "type": "integer" },
+        "duplicateVotes": { "type": "integer" },
+        "underAgeVotes": { "type": "integer" },
+        "invalidVotes": { "type": "integer" }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pluginId", "discussionTitle", "discussionUrl", "votes", "voters", "excluded"],
+        "properties": {
+          "pluginId": { "type": "string", "pattern": "^dsh-plugin-[a-z0-9-]+$" },
+          "discussionNumber": { "description": "nullable when a fixture omits it" },
+          "discussionTitle": { "type": "string" },
+          "discussionUrl": { "type": "string" },
+          "votes": { "type": "integer" },
+          "voters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "login", "createdAt"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "login": { "type": "string" },
+                "createdAt": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "excluded": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["duplicates", "underAge", "invalid"],
+            "properties": {
+              "duplicates": { "type": "integer" },
+              "underAge": { "type": "integer" },
+              "invalid": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
@@ -118,7 +118,14 @@ test('checkRepo-free offline gate: canonical bad fixtures all report red', () =>
 });
 
 test('M1 built-in snapshot carries the canonical 6 groups and 25 plugins', () => {
-  const snapshot = JSON.parse(readFileSync(join(root, '..', 'dsh-plugin-market', 'src', 'snapshot.json'), 'utf8'));
+  // In the main repo the plugin repo is a sibling; from a git worktree it is one level higher.
+  const candidates = [
+    join(root, '..', 'dsh-plugin-market', 'src', 'snapshot.json'),
+    join(root, '..', '..', 'dsh-plugin-market', 'src', 'snapshot.json'),
+  ];
+  const snapshotPath = candidates.find((path) => existsSync(path));
+  assert.ok(snapshotPath, `built-in snapshot not found in ${candidates.join(' or ')}`);
+  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf8'));
   assert.equal(snapshot.groups.length, 6);
   assert.equal(snapshot.plugins.length, 25);
   assert.ok(snapshot.generatedAt, 'snapshot must carry a generatedAt stamp');

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T12:09:28.869Z",
+  "generatedAt": "2026-11-23T09:00:00.000Z",
   "source": "dsh-market-data",
   "plugins": [
     {
@@ -22,7 +22,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-cost-ledger",
@@ -43,7 +44,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-deep-scan",
@@ -63,7 +65,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-eco-scan",
@@ -83,7 +86,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-error-radar",
@@ -104,7 +108,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 0
     },
     {
       "id": "dsh-plugin-fact-vault",
@@ -125,7 +130,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 4
     },
     {
       "id": "dsh-plugin-family-cards",
@@ -145,7 +151,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-html-report",
@@ -165,7 +172,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-ide-hub",
@@ -189,27 +197,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
-    },
-    {
-      "id": "dsh-plugin-local-deep-search",
-      "repo": "121212165/dsh-plugin-local-deep-search",
-      "npm": "@deepseek-ai/dsh-plugin-local-deep-search",
-      "name": "本地深搜",
-      "oneLiner": "本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网",
-      "category": "扫描与研究",
-      "entries": [
-        "/local-research",
-        "local_deep_search"
-      ],
-      "requires": [
-        "tools"
-      ],
-      "dshRange": ">=0.1.2-rc.1 <0.2.0",
-      "license": "MIT",
-      "author": "121212165",
-      "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 3
     },
     {
       "id": "dsh-plugin-obsidian-push",
@@ -230,7 +219,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-pinboard",
@@ -252,7 +242,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-plugin-forge",
@@ -273,7 +264,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-price-aware",
@@ -294,7 +286,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-prompt-optimize",
@@ -316,7 +309,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 0
     },
     {
       "id": "dsh-plugin-prompt-vault",
@@ -336,7 +330,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-quota",
@@ -359,7 +354,11 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 5,
+      "stars": 145,
+      "weeklyDownloads": 312,
+      "lastSeenAt": "2026-11-16"
     },
     {
       "id": "dsh-plugin-relay-quota",
@@ -381,7 +380,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-session-insights",
@@ -401,7 +401,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-spend-forecast",
@@ -422,7 +423,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-task-forge",
@@ -446,7 +448,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-token-telemetry",
@@ -467,7 +470,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-tool-trace",
@@ -487,7 +491,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-transcript",
@@ -507,7 +512,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-transcript-search",
@@ -528,7 +534,32 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
+    },
+    {
+      "id": "dsh-plugin-local-deep-search",
+      "repo": "121212165/dsh-plugin-local-deep-search",
+      "npm": "@deepseek-ai/dsh-plugin-local-deep-search",
+      "name": "本地深搜",
+      "oneLiner": "本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网",
+      "category": "扫描与研究",
+      "entries": [
+        "/local-research",
+        "local_deep_search"
+      ],
+      "requires": [
+        "tools"
+      ],
+      "dshRange": ">=0.1.2-rc.1 <0.2.0",
+      "license": "MIT",
+      "author": "121212165",
+      "borrowedFrom": [],
+      "verifiedAt": "2026-11-21",
+      "votes": 1,
+      "stars": 12,
+      "deadSince": "2026-11-09",
+      "demotionReason": "仓库 404 已持续 7 天（自 2026-11-09）"
     }
   ],
   "groups": [
