@@ -8,6 +8,8 @@
     "seed": "node scripts/seed.mjs",
     "build": "node scripts/build-index.mjs",
     "validate": "node scripts/validate.mjs",
+    "test": "node --test",
+    "verify:f1": "node scripts/verify-f1.mjs",
     "check": "npm run build && npm run validate"
   },
   "license": "MIT"
