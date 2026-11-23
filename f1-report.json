@@ -1,0 +1,54 @@
+{
+  "milestone": "F1",
+  "generatedAt": "2026-11-23T03:10:47.728Z",
+  "samples": {
+    "good": {
+      "ok": true,
+      "codes": [],
+      "draftPath": "data/plugins/dsh-plugin-submission-demo.json"
+    },
+    "missing-license": {
+      "ok": false,
+      "codes": [
+        "MISSING_LICENSE"
+      ],
+      "draftPath": null
+    },
+    "missing-borrowed": {
+      "ok": false,
+      "codes": [
+        "MISSING_BORROWED_FROM"
+      ],
+      "draftPath": null
+    },
+    "duplicate-id": {
+      "ok": false,
+      "codes": [
+        "DUPLICATE_ID",
+        "DUPLICATE_ID"
+      ],
+      "draftPath": "data/plugins/dsh-plugin-quota.json"
+    }
+  },
+  "verifyPlugin": {
+    "command": "node scripts/vendor/verify-plugin.mjs submitted-plugin",
+    "verifierPath": "C:\\Users\\lenovo\\Documents\\Trae-CN\\temp_20261121_02\\worktrees\\wt-f1-submission\\scripts\\vendor\\verify-plugin.mjs",
+    "pluginDir": "submitted-plugin",
+    "ok": true,
+    "output": "OK: all plugin specs pass\n结果: 1 插件 / 0 FAIL / 0 WARN"
+  },
+  "criteria": {
+    "missingLicenseRejected": true,
+    "missingBorrowedRejected": true,
+    "duplicateIdRejected": true,
+    "goodSubmissionAccepted": true,
+    "prBodyHasValidation": true,
+    "prBodyHasVerifyOutput": true,
+    "issueFormHasThreeRequired": true,
+    "workflowReusesGates": true,
+    "workflowOpensPr": true
+  },
+  "errors": [],
+  "pass": true,
+  "honesty": "本地无 gh 身份/远程，Actions 未实跑；verify-plugin 以注入的确定性报告复验 PR 正文包含关系，真实 Action 在 GitHub 上对投稿 repo 跑 vendored 工具。等价复验口径沿用 M4 诚实声明。"
+}

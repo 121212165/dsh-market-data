@@ -1,0 +1,116 @@
+name: market / plugin submission
+
+# F1: Issue Form -> draft entry -> existing gates -> vendored verify-plugin -> auto PR.
+# Issue content is passed through env vars/files, never interpolated into shell.
+on:
+  issues:
+    types: [opened, edited]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: plugin-submission-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        contains(github.event.issue.labels.*.name, 'submission')
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout data repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Parse Issue Form -> draft plugin entry
+        id: prepare
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          printf '%s' "$ISSUE_BODY" > submission-issue.md
+          node scripts/submission.mjs prepare --issue submission-issue.md \
+            --number "$ISSUE_NUMBER" --state submission-state.json
+          {
+            echo "DRAFT_PATH=$(node -p "JSON.parse(require('fs').readFileSync('submission-state.json','utf8')).draftPath || ''")"
+            echo "PLUGIN_REPO=$(node -p "JSON.parse(require('fs').readFileSync('submission-state.json','utf8')).repo || ''")"
+            echo "PLUGIN_ID=$(node -p "(JSON.parse(require('fs').readFileSync('submission-state.json','utf8')).draft || {}).id || ''")"
+            echo "PR_TITLE=feat(submission): add $(node -p "(JSON.parse(require('fs').readFileSync('submission-state.json','utf8')).draft || {}).id || 'plugin'") from issue #$ISSUE_NUMBER"
+          } >> "$GITHUB_ENV"
+
+      - name: Validate draft (reuse scripts/validate.mjs + scripts/check-pr.mjs)
+        id: validate
+        continue-on-error: true
+        run: |
+          node scripts/submission.mjs validate --state submission-state.json --report validation.json
+          node scripts/submission.mjs gate --report validation.json
+          node scripts/check-pr.mjs "$DRAFT_PATH"
+
+      - name: Run vendored verify-plugin on the submitted repo
+        id: verify
+        continue-on-error: true
+        run: |
+          PLUGIN_DIR="$RUNNER_TEMP/submitted-plugin"
+          git clone --depth 1 "https://github.com/${PLUGIN_REPO}.git" "$PLUGIN_DIR"
+          node scripts/verify-plugin-gate.mjs "$PLUGIN_DIR" --out verify.json
+          node -e "const r=JSON.parse(require('fs').readFileSync('verify.json','utf8')); process.exit(r.ok ? 0 : 1)"
+
+      - name: Reject invalid submission (comment on the issue)
+        if: steps.validate.outcome != 'success' || steps.verify.outcome != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const read = (p) => { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; } };
+            const report = read('validation.json');
+            const verify = read('verify.json');
+            const codes = (report?.errors ?? []).map((e) => e.code);
+            const lines = [
+              '## 投稿未通过 F1 门禁',
+              '',
+              `校验结论：**${report?.ok ? 'PASS' : 'FAIL'}**`,
+              codes.length ? `错误码：${codes.join(', ')}` : '',
+              verify && !verify.ok
+                ? ['verify-plugin 输出：', '````text', String(verify.output).trim(), '````'].join('\n')
+                : '',
+              '',
+              '请修正 Issue 表单字段后重新提交（编辑本 Issue 会重新触发 Action）。',
+            ].filter(Boolean);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: lines.join('\n'),
+            });
+            core.setFailed('submission rejected by F1 gate');
+
+      - name: Render PR body (validation result + verify-plugin output)
+        run: |
+          node scripts/submission.mjs pr-body --report validation.json \
+            --verify verify.json --number "${{ github.event.issue.number }}" --out pr-body.md
+          cat pr-body.md
+
+      - name: Open PR to the data repo
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: submission/issue-${{ github.event.issue.number }}
+          delete-branch: true
+          title: ${{ env.PR_TITLE }}
+          body-path: pr-body.md
+          commit-message: ${{ env.PR_TITLE }}
+          add-paths: ${{ env.DRAFT_PATH }}
+          labels: submission

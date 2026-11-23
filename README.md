@@ -15,3 +15,32 @@ npm run check     # build-index + validate
 2. **不要改 `scripts/catalog.source.json`**：它是 `seed.mjs` 的种子输入，CI 不跑 seed。改它不会同步到已生成的 `data/`，也不会进 index。
 3. PR 会自动跑 `scripts/check-pr.mjs`：占位字段、group 缺 `why`、含糊 `verify`、未知成员（`UNKNOWN_MEMBER`）、重复 id（`DUPLICATE_ID`）、组内重复成员（`DUPLICATE_MEMBER`）都会报红，每条错误带 `entryPath` 指向具体文件。
 4. 本地预检：`node scripts/check-pr.mjs data/plugins/<你的文件>.json`，再跑 `npm run check`。
+
+### F1 投稿：Issue Form → 校验 → 自动 PR
+
+作者也可以走 Issue 表单：打开 `.github/ISSUE_TEMPLATE/plugin-submission.yml`（标签 `submission`），
+填完三个必填字段 `repo`（`owner/name`）、`license`（MIT / Apache-2.0 / BSD-3-Clause / ISC）、
+**借鉴来源表**（至少一行真实来源）。编辑该 Issue 会重新触发 Action。
+
+`.github/workflows/submission.yml` 的流程：
+
+1. `scripts/submission.mjs prepare` 解析表单 → 生成 `data/plugins/dsh-plugin-<id>.json` 草稿
+   （字段映射参考 `scripts/catalog.source.json`；**不改**该种子文件，也**不直接写** `data/index.json`，
+   它由合并后的 build 流程生成）。选填字段留空时用具体默认值，不写占位词。
+2. 复用现有规则校验：`scripts/validate.mjs` 的 `validateDataset` + `scripts/check-pr.mjs` 的
+   `checkEntry` / `checkCrossEntry`；缺 license（缺 repo / 缺借鉴来源同理）、重复 id 一律报红，
+   失败时把错误码回帖到 Issue，不开 PR。
+3. 对 `repo` 指向的插件仓跑 vendored 家族门禁
+   `scripts/vendor/verify-plugin.mjs`（经 `scripts/verify-plugin-gate.mjs` 包装，输出可机读）。
+4. `peter-evans/create-pull-request` 开 PR，PR 正文含校验结果表格和 **verify-plugin 原始输出**。
+
+本地等价复验（无 gh 身份/远程时）：
+
+```bash
+npm test                       # node --test，全绿
+npm run verify:f1              # 四样本 + PR 正文契约 → f1-report.json
+node scripts/submission.mjs check --issue test/fixtures/submissions/<样本>.md   # 退出码 0/1
+```
+
+诚实声明（沿用 M4 口径）：本地无 gh 身份/远程，**Actions 未实跑**；`verify-plugin` 在本地证据里
+以注入的确定性输出复验 PR 正文包含关系，真实 Action 在 GitHub 上对投稿 repo 跑 vendored 工具。
