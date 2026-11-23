@@ -143,8 +143,8 @@
           "subtotal": 4,
           "sources": [
             {
-              "id": "fuse-power-pair",
-              "detail": "省钱双核 · sourcePluginIds"
+              "id": "fuse-quota-cost-ledger",
+              "detail": "用量+成本融合 · sourcePluginIds"
             }
           ]
         },
@@ -194,7 +194,7 @@
       "borrowedFrom": [],
       "verifiedAt": "2026-11-21",
       "votes": 2,
-      "score": 14,
+      "score": 10,
       "scoreBreakdown": [
         {
           "key": "included",
@@ -226,14 +226,9 @@
           "key": "fused",
           "label": "被融合",
           "weight": 4,
-          "count": 1,
-          "subtotal": 4,
-          "sources": [
-            {
-              "id": "fuse-scan-chain",
-              "detail": "先扫后挖 · sourcePluginIds"
-            }
-          ]
+          "count": 0,
+          "subtotal": 0,
+          "sources": []
         },
         {
           "key": "validVotes",
@@ -281,7 +276,7 @@
       "borrowedFrom": [],
       "verifiedAt": "2026-11-21",
       "votes": 1,
-      "score": 13,
+      "score": 9,
       "scoreBreakdown": [
         {
           "key": "included",
@@ -313,14 +308,9 @@
           "key": "fused",
           "label": "被融合",
           "weight": 4,
-          "count": 1,
-          "subtotal": 4,
-          "sources": [
-            {
-              "id": "fuse-scan-chain",
-              "detail": "先扫后挖 · sourcePluginIds"
-            }
-          ]
+          "count": 0,
+          "subtotal": 0,
+          "sources": []
         },
         {
           "key": "validVotes",
@@ -679,7 +669,7 @@
       "borrowedFrom": [],
       "verifiedAt": "2026-11-21",
       "votes": 3,
-      "score": 15,
+      "score": 11,
       "scoreBreakdown": [
         {
           "key": "included",
@@ -711,14 +701,9 @@
           "key": "fused",
           "label": "被融合",
           "weight": 4,
-          "count": 1,
-          "subtotal": 4,
-          "sources": [
-            {
-              "id": "fuse-daily-driver",
-              "detail": "日常驾驶舱 · sourcePluginIds"
-            }
-          ]
+          "count": 0,
+          "subtotal": 0,
+          "sources": []
         },
         {
           "key": "validVotes",
@@ -1284,8 +1269,8 @@
           "subtotal": 4,
           "sources": [
             {
-              "id": "fuse-power-pair",
-              "detail": "省钱双核 · sourcePluginIds"
+              "id": "fuse-quota-cost-ledger",
+              "detail": "用量+成本融合 · sourcePluginIds"
             }
           ]
         },
@@ -1582,7 +1567,7 @@
       "borrowedFrom": [],
       "verifiedAt": "2026-11-21",
       "votes": 2,
-      "score": 17,
+      "score": 13,
       "scoreBreakdown": [
         {
           "key": "included",
@@ -1618,14 +1603,9 @@
           "key": "fused",
           "label": "被融合",
           "weight": 4,
-          "count": 1,
-          "subtotal": 4,
-          "sources": [
-            {
-              "id": "fuse-daily-driver",
-              "detail": "日常驾驶舱 · sourcePluginIds"
-            }
-          ]
+          "count": 0,
+          "subtotal": 0,
+          "sources": []
         },
         {
           "key": "validVotes",
@@ -1747,7 +1727,7 @@
       "borrowedFrom": [],
       "verifiedAt": "2026-11-21",
       "votes": 1,
-      "score": 10,
+      "score": 6,
       "scoreBreakdown": [
         {
           "key": "included",
@@ -1774,14 +1754,9 @@
           "key": "fused",
           "label": "被融合",
           "weight": 4,
-          "count": 1,
-          "subtotal": 4,
-          "sources": [
-            {
-              "id": "fuse-daily-driver",
-              "detail": "日常驾驶舱 · sourcePluginIds"
-            }
-          ]
+          "count": 0,
+          "subtotal": 0,
+          "sources": []
         },
         {
           "key": "validVotes",

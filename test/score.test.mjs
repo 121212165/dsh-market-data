@@ -157,7 +157,7 @@ test('withScores / buildIndex 串联后，被组合与被融合分项带真实�
   const quota = scored.plugins.find((p) => p.id === 'dsh-plugin-quota');
 
   assert.deepEqual(part(quota, 'grouped').sources.map((s) => s.id), ['starter-three']);
-  assert.deepEqual(part(quota, 'fused').sources.map((s) => s.id), ['fuse-power-pair']);
+  assert.deepEqual(part(quota, 'fused').sources.map((s) => s.id), ['fuse-quota-cost-ledger']);
   assert.equal(part(quota, 'validVotes').count, 5);
   assert.equal(quota.score, 17);
 });

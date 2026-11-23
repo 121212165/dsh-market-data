@@ -1,40 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T09:00:00.000Z",
-  "source": "fixture:data/fusions.json",
-  "status": "fixture-placeholder",
-  "note": "F3 融合分支尚未合并进数据仓，按 F1-F8-EXECUTION.md §五 的口径，用可解释的 fixture 占位「被融合」事件；F3 合并后由真实融合事件快照替换，F8 的消费逻辑不变。",
+  "generatedAt": "2026-11-21T12:09:28.869Z",
+  "source": "F3 real fuse event: task/f3-fuse@f34cdac · scripts/make-fuse-evidence.mjs · f3-fuse-evidence.md",
+  "status": "f3-real",
+  "note": "来自 F3 的真实融合实样（quota + cost-ledger）：复用 dsh-plugin-quota 的 req:tools / req:systemPrompt / req:sessionProjections / cat:钱与用量 / data:cost / data:forecast 六项，dsh-plugin-cost-ledger 直接接入不重写；上游借鉴：无；MIT/Apache-2.0 白名单，官方门禁 0 FAIL/0 WARN。",
   "events": [
     {
-      "id": "fuse-power-pair",
-      "name": "省钱双核",
+      "id": "fuse-quota-cost-ledger",
+      "name": "用量+成本融合",
       "sourcePluginIds": [
         "dsh-plugin-quota",
         "dsh-plugin-cost-ledger"
       ],
       "license": "MIT",
-      "at": "2026-11-22"
-    },
-    {
-      "id": "fuse-scan-chain",
-      "name": "先扫后挖",
-      "sourcePluginIds": [
-        "dsh-plugin-eco-scan",
-        "dsh-plugin-deep-scan"
-      ],
-      "license": "Apache-2.0",
-      "at": "2026-11-22"
-    },
-    {
-      "id": "fuse-daily-driver",
-      "name": "日常驾驶舱",
-      "sourcePluginIds": [
-        "dsh-plugin-ide-hub",
-        "dsh-plugin-task-forge",
-        "dsh-plugin-tool-trace"
-      ],
-      "license": "MIT",
-      "at": "2026-11-23"
+      "at": "2026-11-21"
     }
   ]
 }
