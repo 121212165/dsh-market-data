@@ -1,5 +1,6 @@
 {
   "milestone": "F1",
+  "evidenceType": "static",
   "generatedAt": "2026-11-23T03:10:47.728Z",
   "samples": {
     "good": {
@@ -32,10 +33,11 @@
   },
   "verifyPlugin": {
     "command": "node scripts/vendor/verify-plugin.mjs submitted-plugin",
-    "verifierPath": "C:\\Users\\lenovo\\Documents\\Trae-CN\\temp_20261121_02\\worktrees\\wt-f1-submission\\scripts\\vendor\\verify-plugin.mjs",
+    "verifierPath": "C:\\\\Users\\\\lenovo\\\\Documents\\\\Trae-CN\\\\temp_20261121_02\\\\dsh-market-data\\\\scripts\\\\vendor\\\\verify-plugin.mjs",
     "pluginDir": "submitted-plugin",
     "ok": true,
-    "output": "OK: all plugin specs pass\n结果: 1 插件 / 0 FAIL / 0 WARN"
+    "injectedReport": "OK: all plugin specs pass\n结果: 1 插件 / 0 FAIL / 0 WARN",
+    "note": "injectedReport 是注入的确定性门禁输出，用于复验 PR 正文包含关系；submitted-plugin 目录不存在，不是真实 Action 运行结果。"
   },
   "criteria": {
     "missingLicenseRejected": true,
