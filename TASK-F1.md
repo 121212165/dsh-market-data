@@ -22,7 +22,7 @@
 
 ## 实施建议
 1. 先看 `scripts/catalog.source.json` 的字段结构与 `check-pr.mjs` 的错误码。
-2. 投稿先落成 `catalog.source.json` 的草稿条目，再走 PR；不要直接写 `data/index.json`（那是 Actions 生成物）。
+2. 投稿先落成 `data/plugins/dsh-plugin-<id>.json` 的草稿条目（字段结构参考 `scripts/catalog.source.json` 但**不改该种子文件**，CI 不跑 seed），再走 PR；不要直接写 `data/index.json`（那是 Actions 生成物）。
 3. 本地无 gh 身份/远程时，用 `node scripts/check-pr.mjs <fixture>` + 手工模拟 PR 正文复验，并在报告中如实标注"Actions 未实跑"（沿用 M4 诚实声明口径）。
 
 ## 边界
