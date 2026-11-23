@@ -7,11 +7,12 @@
   "scripts": {
     "seed": "node scripts/seed.mjs",
     "build": "node scripts/build-index.mjs",
+    "build:site": "node scripts/build-site.mjs",
     "snapshot": "node scripts/snapshot.mjs",
     "validate": "node scripts/validate.mjs",
     "test": "node --test",
     "verify:f1": "node scripts/verify-f1.mjs",
-    "check": "npm run build && npm run validate"
+    "check": "npm run build && npm run build:site && npm run validate"
   },
   "license": "MIT"
 }

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "title": "F8 contribution score weights — single source of truth",
+  "description": "公开权重：贡献分 = Σ(分项数量 × 权重)。代码与页面都从本文件读取；改本文件即改变榜单与页面的「分从哪来」解释，无需改逻辑。",
+  "weights": {
+    "included": {
+      "points": 5,
+      "label": "收录",
+      "description": "插件在 data/plugins/ 有一条正式收录（每插件计 1 次）"
+    },
+    "grouped": {
+      "points": 3,
+      "label": "被组合",
+      "description": "被一个编辑/社区组列为成员（每组计 1 次，来源写组 id）"
+    },
+    "fused": {
+      "points": 4,
+      "label": "被融合",
+      "description": "被一次 F3 融合用作来源插件（每次计 1 次，来源写融合事件 id）"
+    },
+    "validVotes": {
+      "points": 1,
+      "label": "有效票",
+      "description": "F2 快照中通过一人一票 + 账号龄门槛的有效 👍（每票计 1 次；票数最易刷，故权重最低）"
+    }
+  },
+  "antiGaming": {
+    "oneVotePerAccount": true,
+    "accountAgeDaysMin": 30,
+    "duplicateVotesExcluded": true,
+    "rawReactionsIgnored": true,
+    "note": "沿用 F2：同一账号跨讨论重复 reaction 只算 1 票，账号龄不足 30 天不计；原始 reaction 数与重复票不进入有效票，因此也不会进入贡献分。"
+  }
+}

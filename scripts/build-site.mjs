@@ -7,13 +7,14 @@
  * verification harness to compare. No framework, no CDN, no network at runtime.
  */
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const INDEX = join(ROOT, 'data', 'index.json');
 const OUT = join(ROOT, 'site', 'index.html');
+const WEIGHTS = join(ROOT, 'schema', 'score.weights.json');
 
 /** Tolerate the two index shapes the data layer has used (schema / schemaVersion). */
 export function normalizeIndex(raw) {
@@ -38,6 +39,45 @@ export function governanceBadges(p) {
   if (p.demotionReason) badges.push(`<span class="badge demoted" title="${esc(p.demotionReason)}">已降级 · ${esc(p.demotionReason)}</span>`);
   if (p.staleReason) badges.push(`<span class="badge stale" title="${esc(p.staleReason)}">陈旧 · ${esc(p.staleReason)}</span>`);
   return badges.length ? `<div class="flags">${badges.join('')}</div>` : '';
+}
+
+/** F8: "分从哪来" — total plus every component with its source ids. */
+export function scoreCell(p) {
+  const breakdown = Array.isArray(p.scoreBreakdown) ? p.scoreBreakdown : [];
+  const score = Number.isInteger(p.score) ? p.score : 0;
+  const items = breakdown.map((c) => {
+    const sources = (c.sources ?? []).map((s) => `<code>${esc(s.id)}</code>`).join('、') || '无';
+    const raw = c.rawReactions != null
+      ? `原始 reaction ${c.rawReactions}`
+      : `F2 计票 ${c.recordedVotes ?? '—'}`;
+    const antiGaming = c.key === 'validVotes' && c.excluded
+      ? `<span class="sub">${raw} · 有效 ${c.count} · 重复/未成年排除 ${c.excluded.duplicates ?? 0}/${c.excluded.underAge ?? 0}</span>`
+      : '';
+    return `<li><b>${esc(c.label)}</b> ${c.count} × ${c.weight} = <b>${c.subtotal}</b><span class="sub">来源：${sources}</span>${antiGaming}</li>`;
+  }).join('');
+  return `<td class="score" data-score="${score}">
+    <strong>${score}</strong>
+    ${breakdown.length
+      ? `<details class="breakdown"><summary>分从哪来</summary><ul>${items}</ul></details>`
+      : '<span class="sub">无明细</span>'}
+  </td>`;
+}
+
+/** Public weights legend — rendered from the same file the scorer reads. */
+export function weightsLegend(weights) {
+  if (!weights?.weights) return '';
+  const rows = Object.entries(weights.weights).map(([key, def]) => {
+    const points = typeof def === 'number' ? def : def.points;
+    const label = (typeof def === 'object' && def.label) || key;
+    const description = typeof def === 'object' ? def.description : '';
+    return `<li><b>${esc(label)}</b> × ${esc(points)}${description ? `<span class="sub">${esc(description)}</span>` : ''}</li>`;
+  }).join('');
+  const ag = weights.antiGaming ?? {};
+  return `<details class="score-legend" id="score-legend" open>
+    <summary>贡献分权重（公开 · 唯一真源 <code>schema/score.weights.json</code> · v${esc(weights.version ?? 1)}）</summary>
+    <ul>${rows}</ul>
+    <p class="sub">防刷：${esc(ag.note || '沿用 F2 一人一票 + 账号龄门槛；重复票不计入有效票。')}</p>
+  </details>`;
 }
 
 function groupCard(group, pluginById) {
@@ -73,6 +113,7 @@ function pluginRow(p) {
     <td>${esc((p.entries || []).join(' '))}</td>
     <td><a href="https://github.com/${esc(p.repo)}" rel="noopener">${esc(p.repo)}</a><div class="sub">${esc(p.license)} · 核于 ${esc(p.verifiedAt)}</div></td>
     <td class="votes" data-votes="${Number.isInteger(p.votes) ? p.votes : 0}">${Number.isInteger(p.votes) ? p.votes : '—'}</td>
+    ${scoreCell(p)}
   </tr>`;
 }
 
@@ -83,10 +124,11 @@ function demotedRow(p) {
     <td><code>${esc(p.id)}</code><div class="sub">${esc(p.name)} · ${esc(p.oneLiner)}</div></td>
     <td><span class="badge demoted" title="${esc(p.demotionReason)}">${esc(p.demotionReason)}</span></td>
     <td><a href="https://github.com/${esc(p.repo)}" rel="noopener">${esc(p.repo)}</a></td>
+    ${scoreCell(p)}
   </tr>`;
 }
 
-export function renderHtml(rawIndex, { sourceSha256 = '', builtAt = '' } = {}) {
+export function renderHtml(rawIndex, { sourceSha256 = '', builtAt = '', weights = null } = {}) {
   const index = normalizeIndex(rawIndex);
   const pluginById = new Map(index.plugins.map((p) => [p.id, p]));
   const groups = index.groups
@@ -96,7 +138,11 @@ export function renderHtml(rawIndex, { sourceSha256 = '', builtAt = '' } = {}) {
   const activePlugins = index.plugins.filter((p) => !p.demotionReason);
   const demotedPlugins = index.plugins.filter((p) => p.demotionReason);
   const stalePlugins = index.plugins.filter((p) => p.staleReason);
+  // F8: the leaderboard is ranked by contribution score; ties keep index order.
+  const rankedPlugins = activePlugins.slice()
+    .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
   const dataJson = JSON.stringify(index).replace(/</g, '\\u003c');
+  const weightsJson = JSON.stringify(weights ?? {}).replace(/</g, '\\u003c');
 
   return `<!doctype html>
 <html lang="zh-CN" data-index-sha256="${esc(sourceSha256)}" data-built-at="${esc(builtAt)}">
@@ -126,6 +172,17 @@ h1{font-size:26px;margin:0}h2{font-size:19px;margin:36px 0 12px}h3{font-size:16p
 .badge.stale{border-color:#b26a00;color:#b26a00;background:#fdf6e8}
 .flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
 .demoted-note{color:#b23c3c;font-size:13px;margin:4px 0 12px}
+/* F8: 可解释贡献分 */
+.score-legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 0 18px;font-size:13px}
+.score-legend summary{font-size:13px}
+.score-legend ul{margin:8px 0 2px;padding-left:20px}
+.score-legend p{margin:6px 0 0}
+td.score{white-space:nowrap;min-width:110px}
+td.score>strong{font-size:15px;color:var(--accent)}
+.breakdown summary{font-size:12px}
+.breakdown ul{margin:8px 0 0;padding-left:18px;color:var(--fg)}
+.breakdown li{margin:4px 0;overflow-wrap:anywhere}
+.breakdown code{font-size:11px}
 @media(prefers-color-scheme:dark){.badge.demoted{background:#3a2222}.badge.stale{background:#3a3020}}
 .members ol{margin:0;padding-left:20px}.members li{margin:4px 0;overflow-wrap:anywhere}
 .sub{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
@@ -152,25 +209,27 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
   </header>
   <p class="intro">选组 → 在 dsh 里运行安装命令 → 装完按「怎么验」自检。本站只读、不需要账号；安装只能发生在 dsh 会话内。</p>
   <p class="tag" id="governance-summary" data-demoted="${demotedPlugins.length}" data-stale="${stalePlugins.length}">数据治理：已降级 ${demotedPlugins.length} · 陈旧 ${stalePlugins.length}（404 仓持续 7 天降级，入口恢复后自动回升）</p>
+  ${weightsLegend(weights)}
 
   <h2>编辑精选与社区组（${groups.length}）</h2>
   <div class="grid" id="groups">
     ${groups.map((g) => groupCard(g, pluginById)).join('\n    ')}
   </div>
 
-  <h2>全部插件（${activePlugins.length}）</h2>
-  <table id="active-plugins"><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>票数</th></tr></thead>
-  <tbody>${activePlugins.map(pluginRow).join('\n  ')}</tbody></table>
+  <h2>贡献榜 · 全部插件（按贡献分排序，${activePlugins.length}）</h2>
+  <table id="active-plugins"><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>有效票</th><th>贡献分（分从哪来）</th></tr></thead>
+  <tbody>${rankedPlugins.map(pluginRow).join('\n  ')}</tbody></table>
 
   ${demotedPlugins.length ? `
   <h2>已降级的失效条目（${demotedPlugins.length}）</h2>
   <p class="demoted-note">仓库返回 404 已超过 7 天，已从首页主列表移除；条目仍保留在数据仓中，仓库恢复后会自动回到主列表。</p>
-  <table id="demoted-plugins"><thead><tr><th>插件 / 说明</th><th>降级原因</th><th>仓库</th></tr></thead>
+  <table id="demoted-plugins"><thead><tr><th>插件 / 说明</th><th>降级原因</th><th>仓库</th><th>贡献分（分从哪来）</th></tr></thead>
   <tbody>${demotedPlugins.map(demotedRow).join('\n  ')}</tbody></table>` : ''}
 
-  <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>${esc(sourceSha256.slice(0, 12))}</code>）。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>
+  <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>${esc(sourceSha256.slice(0, 12))}</code>）；权重来自 <code>schema/score.weights.json</code>。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>
 </div>
 <script id="market-data" type="application/json">${dataJson}</script>
+<script id="score-weights" type="application/json">${weightsJson}</script>
 <script>
 (function () {
   var data = JSON.parse(document.getElementById('market-data').textContent);
@@ -209,7 +268,8 @@ export function buildSite({ indexFile = INDEX, outFile = OUT } = {}) {
   // Deterministic: builtAt is derived from the source stamp, so rebuilding from
   // the same index.json is byte-identical (proves index→page sync in CI).
   const parsed = JSON.parse(raw);
-  const html = renderHtml(parsed, { sourceSha256: sha256, builtAt: parsed.generatedAt ?? '' });
+  const weights = existsSync(WEIGHTS) ? JSON.parse(readFileSync(WEIGHTS, 'utf8')) : null;
+  const html = renderHtml(parsed, { sourceSha256: sha256, builtAt: parsed.generatedAt ?? '', weights });
   mkdirSync(dirname(outFile), { recursive: true });
   writeFileSync(outFile, html, 'utf8');
   return { outFile, sha256, bytes: Buffer.byteLength(html, 'utf8') };

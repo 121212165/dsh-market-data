@@ -1,0 +1,66 @@
+{
+  "milestone": "F8",
+  "generatedAt": "2026-11-23T09:00:00.000Z",
+  "branch": "task/f8-score",
+  "baseline": "main@45153c1",
+  "prerequisites": {
+    "integrated": ["F1", "F2", "F7"],
+    "via": "merge task/f7-governance (already contains task/f1-submission + task/f2-vote)",
+    "f3": "未合并：data/fusions.json 为 fixture 占位，按 F1-F8-EXECUTION.md §五 标注；F3 合并后替换为真实融合事件快照，F8 消费逻辑不变"
+  },
+  "weights": {
+    "file": "schema/score.weights.json",
+    "version": 1,
+    "points": {
+      "included": 5,
+      "grouped": 3,
+      "fused": 4,
+      "validVotes": 1
+    },
+    "singleSourceOfTruth": true,
+    "consumedBy": ["scripts/score.mjs", "scripts/build-site.mjs"]
+  },
+  "scoring": {
+    "formula": "score = Σ(分项数量 × 公开权重)",
+    "components": ["included", "grouped", "fused", "validVotes"],
+    "antiGaming": "沿用 F2 一人一票 + 账号龄 30 天门槛；重复票 / 未成年票 / 原始 reaction 数不计入有效票"
+  },
+  "evidence": {
+    "nodeTest": {
+      "command": "node --test",
+      "tests": 49,
+      "pass": 49,
+      "fail": 0
+    },
+    "npmCheck": {
+      "command": "npm run check (build + build:site + validate)",
+      "pass": true,
+      "output": "validate: green — 25 plugins, 6 groups pass all offline rules"
+    },
+    "generated": {
+      "data/index.json": "25 plugins with score + scoreBreakdown",
+      "data/snapshot.json": "同构于 index.json (M0)",
+      "site/index.html": "贡献榜按分数排序；每条展开『分从哪来』含来源 id；权重明细来自 schema/score.weights.json"
+    },
+    "sample": {
+      "pluginId": "dsh-plugin-quota",
+      "score": 17,
+      "breakdown": {
+        "included": "1 × 5 = 5 (dsh-plugin-quota)",
+        "grouped": "1 × 3 = 3 (starter-three)",
+        "fused": "1 × 4 = 4 (fuse-power-pair)",
+        "validVotes": "5 × 1 = 5 (F2 有效票；排除重复 1 / 未成年 1)"
+      }
+    }
+  },
+  "criteria": {
+    "nodeTestGreen": true,
+    "anyEntryHasCompleteBreakdown": true,
+    "pageExplainable": true,
+    "weightsPublic": true,
+    "antiGamingReused": true
+  },
+  "errors": [],
+  "pass": true,
+  "honesty": "本地无远程，Actions 未实跑；生成物已用 node --test（49/49）+ npm run check 离线复验，统计与明细均来自真实生成文件，未伪造 live 证据。"
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-index-sha256="60cfe2e279278d8c96791258edc62b84f2ad6dd525dd10b90635d47a2eceb904" data-built-at="2026-11-23T09:00:00.000Z">
+<html lang="zh-CN" data-index-sha256="3ece2e1a9d6259b09753905a88eb8041583ffde580972244ee69ad532a643df8" data-built-at="2026-11-23T09:00:00.000Z">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -26,6 +26,17 @@ h1{font-size:26px;margin:0}h2{font-size:19px;margin:36px 0 12px}h3{font-size:16p
 .badge.stale{border-color:#b26a00;color:#b26a00;background:#fdf6e8}
 .flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
 .demoted-note{color:#b23c3c;font-size:13px;margin:4px 0 12px}
+/* F8: 可解释贡献分 */
+.score-legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 0 18px;font-size:13px}
+.score-legend summary{font-size:13px}
+.score-legend ul{margin:8px 0 2px;padding-left:20px}
+.score-legend p{margin:6px 0 0}
+td.score{white-space:nowrap;min-width:110px}
+td.score>strong{font-size:15px;color:var(--accent)}
+.breakdown summary{font-size:12px}
+.breakdown ul{margin:8px 0 0;padding-left:18px;color:var(--fg)}
+.breakdown li{margin:4px 0;overflow-wrap:anywhere}
+.breakdown code{font-size:11px}
 @media(prefers-color-scheme:dark){.badge.demoted{background:#3a2222}.badge.stale{background:#3a3020}}
 .members ol{margin:0;padding-left:20px}.members li{margin:4px 0;overflow-wrap:anywhere}
 .sub{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
@@ -52,6 +63,11 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
   </header>
   <p class="intro">选组 → 在 dsh 里运行安装命令 → 装完按「怎么验」自检。本站只读、不需要账号；安装只能发生在 dsh 会话内。</p>
   <p class="tag" id="governance-summary" data-demoted="1" data-stale="0">数据治理：已降级 1 · 陈旧 0（404 仓持续 7 天降级，入口恢复后自动回升）</p>
+  <details class="score-legend" id="score-legend" open>
+    <summary>贡献分权重（公开 · 唯一真源 <code>schema/score.weights.json</code> · v1）</summary>
+    <ul><li><b>收录</b> × 5<span class="sub">插件在 data/plugins/ 有一条正式收录（每插件计 1 次）</span></li><li><b>被组合</b> × 3<span class="sub">被一个编辑/社区组列为成员（每组计 1 次，来源写组 id）</span></li><li><b>被融合</b> × 4<span class="sub">被一次 F3 融合用作来源插件（每次计 1 次，来源写融合事件 id）</span></li><li><b>有效票</b> × 1<span class="sub">F2 快照中通过一人一票 + 账号龄门槛的有效 👍（每票计 1 次；票数最易刷，故权重最低）</span></li></ul>
+    <p class="sub">防刷：沿用 F2：同一账号跨讨论重复 reaction 只算 1 票，账号龄不足 30 天不计；原始 reaction 数与重复票不进入有效票，因此也不会进入贡献分。</p>
+  </details>
 
   <h2>编辑精选与社区组（6）</h2>
   <div class="grid" id="groups">
@@ -141,140 +157,18 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
   </article>
   </div>
 
-  <h2>全部插件（24）</h2>
-  <table id="active-plugins"><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>票数</th></tr></thead>
-  <tbody><tr data-plugin="dsh-plugin-cache-guard">
-    <td><code>dsh-plugin-cache-guard</code><div class="sub">缓存护栏 · 前缀缓存健康守卫：检测前缀被改写导致的缓存失效多花钱，提醒模型住手</div></td>
-    <td>工具与质量</td>
-    <td>/health cache_status</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-cache-guard" rel="noopener">121212165/dsh-plugin-cache-guard</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-cost-ledger">
-    <td><code>dsh-plugin-cost-ledger</code><div class="sub">成本台账 · 花费持久台账：按月 JSONL、月报、CSV 导出、环比结论</div></td>
-    <td>钱与用量</td>
-    <td>/ledger</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-cost-ledger" rel="noopener">121212165/dsh-plugin-cost-ledger</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-deep-scan">
-    <td><code>dsh-plugin-deep-scan</code><div class="sub">深度扫描 · GitHub 赛道深度扫描器：多词四通道搜索 + 自动挖 topic 迭代，止损规则内置</div></td>
-    <td>扫描与研究</td>
-    <td>/deep-scan deep_scan</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-deep-scan" rel="noopener">121212165/dsh-plugin-deep-scan</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-eco-scan">
-    <td><code>dsh-plugin-eco-scan</code><div class="sub">生态扫描 · dsh 插件生态市场扫描器：topic 全仓 + npm 周下载差值 + 增长评分</div></td>
-    <td>扫描与研究</td>
-    <td>/eco-scan eco_scan</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-eco-scan" rel="noopener">121212165/dsh-plugin-eco-scan</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-error-radar">
-    <td><code>dsh-plugin-error-radar</code><div class="sub">错误雷达 · 错误率/连败/p95 雷达，区分&quot;系统性故障&quot;和&quot;抖动&quot;</div></td>
-    <td>工具与质量</td>
-    <td>/radar /health</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-error-radar" rel="noopener">121212165/dsh-plugin-error-radar</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="0">0</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-fact-vault">
-    <td><code>dsh-plugin-fact-vault</code><div class="sub">事实库 · 事实便签库：登记可复用的项目事实，tag 加权检索</div></td>
-    <td>会话与知识库</td>
-    <td>/fact fact_find</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-fact-vault" rel="noopener">121212165/dsh-plugin-fact-vault</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="4">4</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-family-cards">
-    <td><code>dsh-plugin-family-cards</code><div class="sub">家族卡片 · 家族 11 个工具的 web UI 卡片渲染器（补官方 Client 不消费 presentCall 的缺口）</div></td>
-    <td>编排与界面</td>
-    <td>/family-cards</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-family-cards" rel="noopener">121212165/dsh-plugin-family-cards</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-html-report">
-    <td><code>dsh-plugin-html-report</code><div class="sub">HTML 报告 · 会话渲染成自包含 HTML 报告（深色模式、无外链），分享/归档用</div></td>
-    <td>会话与知识库</td>
-    <td>/report</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-html-report" rel="noopener">121212165/dsh-plugin-html-report</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-ide-hub">
-    <td><code>dsh-plugin-ide-hub</code><div class="sub">IDE 中枢 · 一个入口管住所有编码 IDE：8 个 IDE 零 API 盘点（含 Trae / Qoder / CatPaw 国产适配）、用量统计、会话一键恢复、规则一份本体多 IDE 下发</div></td>
-    <td>编排与界面</td>
-    <td>/ide-hub /hub-usage /hub-sessions /hub-init /today</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-ide-hub" rel="noopener">121212165/dsh-plugin-ide-hub</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="3">3</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-obsidian-push">
-    <td><code>dsh-plugin-obsidian-push</code><div class="sub">Obsidian 推送 · 转录推送 Obsidian 库：frontmatter + 内容哈希幂等去重，vault 自动发现；`/archive` 一键归档链</div></td>
-    <td>会话与知识库</td>
-    <td>/obsidian-push /archive</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-obsidian-push" rel="noopener">121212165/dsh-plugin-obsidian-push</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-pinboard">
-    <td><code>dsh-plugin-pinboard</code><div class="sub">钉板 · 置顶便签注入系统提示：中途加便签下一回合生效，不用重启</div></td>
-    <td>会话与知识库</td>
-    <td>/pin /pins pin_add</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-pinboard" rel="noopener">121212165/dsh-plugin-pinboard</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-plugin-forge">
-    <td><code>dsh-plugin-plugin-forge</code><div class="sub">插件锻造 · 插件脚手架：生成过 verify-plugin.mjs 的新插件骨架，validate 模式点名现有插件缺什么</div></td>
-    <td>构建与开发工具</td>
-    <td>/forge forge_new forge_check</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-plugin-forge" rel="noopener">121212165/dsh-plugin-plugin-forge</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-price-aware">
-    <td><code>dsh-plugin-price-aware</code><div class="sub">价格感知 · 价格感知注入（宿主侧参考实现风格）</div></td>
-    <td>钱与用量</td>
-    <td>/price-aware</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-price-aware" rel="noopener">121212165/dsh-plugin-price-aware</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-prompt-optimize">
-    <td><code>dsh-plugin-prompt-optimize</code><div class="sub">提示词优化 · 提示词审查与改写：8 条本地规则出问题清单，模板重排生成改写稿（vault 存、本插件审）</div></td>
-    <td>工具与质量</td>
-    <td>/opt prompt_review prompt_rewrite</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-prompt-optimize" rel="noopener">121212165/dsh-plugin-prompt-optimize</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="0">0</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-prompt-vault">
-    <td><code>dsh-plugin-prompt-vault</code><div class="sub">提示词库 · 提示词弹药库：markdown 导入、标签、使用计数，自带 8 条中文种子提示词</div></td>
-    <td>会话与知识库</td>
-    <td>/pv</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-prompt-vault" rel="noopener">121212165/dsh-plugin-prompt-vault</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-quota">
+  <h2>贡献榜 · 全部插件（按贡献分排序，24）</h2>
+  <table id="active-plugins"><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>有效票</th><th>贡献分（分从哪来）</th></tr></thead>
+  <tbody><tr data-plugin="dsh-plugin-quota">
     <td><code>dsh-plugin-quota</code><div class="sub">用量仪表 · 实时用量仪表 + 下一步预估 + 预算刹车：每回合给模型一行实时 token/花费仪表，模型自己看得见、自己刹</div></td>
     <td>钱与用量</td>
     <td>/qm /qm-top quota_meter</td>
     <td><a href="https://github.com/121212165/dsh-plugin-quota" rel="noopener">121212165/dsh-plugin-quota</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="5">5</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-relay-quota">
-    <td><code>dsh-plugin-relay-quota</code><div class="sub">中转额度 · 查任意 OpenAI 兼容中转的余额/用量</div></td>
-    <td>钱与用量</td>
-    <td>/quota quota_check</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-relay-quota" rel="noopener">121212165/dsh-plugin-relay-quota</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-session-insights">
-    <td><code>dsh-plugin-session-insights</code><div class="sub">会话洞察 · 跨会话统计总览：会话数、token、趋势</div></td>
-    <td>会话与知识库</td>
-    <td>/insights</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-session-insights" rel="noopener">121212165/dsh-plugin-session-insights</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="1">1</td>
-  </tr>
-  <tr data-plugin="dsh-plugin-spend-forecast">
-    <td><code>dsh-plugin-spend-forecast</code><div class="sub">花费预测 · 按日均消耗预测余量撑几天、几号烧穿</div></td>
-    <td>钱与用量</td>
-    <td>/forecast</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-spend-forecast" rel="noopener">121212165/dsh-plugin-spend-forecast</a><div class="sub">MIT · 核于 2026-11-21</div></td>
-    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="17">
+    <strong>17</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-quota</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>starter-three</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-power-pair</code></span></li><li><b>有效票</b> 5 × 1 = <b>5</b><span class="sub">来源：<code>1001</code>、<code>1002</code>、<code>1003</code>、<code>1007</code>、<code>1008</code></span><span class="sub">F2 计票 5 · 有效 5 · 重复/未成年排除 1/1</span></li></ul></details>
+  </td>
   </tr>
   <tr data-plugin="dsh-plugin-task-forge">
     <td><code>dsh-plugin-task-forge</code><div class="sub">任务工坊 · 把大白话编译成任务书，跨窗口 AI 无损交接：回读握手逼出理解损耗，缺口闭环、版本号跨窗口唯一权威</div></td>
@@ -282,13 +176,109 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
     <td>/forge /relay /ack /answer /forge-list</td>
     <td><a href="https://github.com/121212165/dsh-plugin-task-forge" rel="noopener">121212165/dsh-plugin-task-forge</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="17">
+    <strong>17</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-task-forge</code></span></li><li><b>被组合</b> 2 × 3 = <b>6</b><span class="sub">来源：<code>starter-three</code>、<code>handoff-duo</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-daily-driver</code></span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1002</code>、<code>1005</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/1</span></li></ul></details>
+  </td>
   </tr>
-  <tr data-plugin="dsh-plugin-token-telemetry">
-    <td><code>dsh-plugin-token-telemetry</code><div class="sub">Token 遥测 · token 遥测 web 面板（官方 useProjection 模式示范）</div></td>
+  <tr data-plugin="dsh-plugin-ide-hub">
+    <td><code>dsh-plugin-ide-hub</code><div class="sub">IDE 中枢 · 一个入口管住所有编码 IDE：8 个 IDE 零 API 盘点（含 Trae / Qoder / CatPaw 国产适配）、用量统计、会话一键恢复、规则一份本体多 IDE 下发</div></td>
+    <td>编排与界面</td>
+    <td>/ide-hub /hub-usage /hub-sessions /hub-init /today</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-ide-hub" rel="noopener">121212165/dsh-plugin-ide-hub</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="3">3</td>
+    <td class="score" data-score="15">
+    <strong>15</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-ide-hub</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>starter-three</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-daily-driver</code></span></li><li><b>有效票</b> 3 × 1 = <b>3</b><span class="sub">来源：<code>1001</code>、<code>1002</code>、<code>1007</code></span><span class="sub">F2 计票 3 · 有效 3 · 重复/未成年排除 0/1</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-cost-ledger">
+    <td><code>dsh-plugin-cost-ledger</code><div class="sub">成本台账 · 花费持久台账：按月 JSONL、月报、CSV 导出、环比结论</div></td>
     <td>钱与用量</td>
-    <td>/token-telemetry</td>
-    <td><a href="https://github.com/121212165/dsh-plugin-token-telemetry" rel="noopener">121212165/dsh-plugin-token-telemetry</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td>/ledger</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-cost-ledger" rel="noopener">121212165/dsh-plugin-cost-ledger</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="14">
+    <strong>14</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-cost-ledger</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>saving-combo</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-power-pair</code></span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1001</code>、<code>1003</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/1</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-deep-scan">
+    <td><code>dsh-plugin-deep-scan</code><div class="sub">深度扫描 · GitHub 赛道深度扫描器：多词四通道搜索 + 自动挖 topic 迭代，止损规则内置</div></td>
+    <td>扫描与研究</td>
+    <td>/deep-scan deep_scan</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-deep-scan" rel="noopener">121212165/dsh-plugin-deep-scan</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="14">
+    <strong>14</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-deep-scan</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>eco-radar</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-scan-chain</code></span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1002</code>、<code>1005</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 1/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-eco-scan">
+    <td><code>dsh-plugin-eco-scan</code><div class="sub">生态扫描 · dsh 插件生态市场扫描器：topic 全仓 + npm 周下载差值 + 增长评分</div></td>
+    <td>扫描与研究</td>
+    <td>/eco-scan eco_scan</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-eco-scan" rel="noopener">121212165/dsh-plugin-eco-scan</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="13">
+    <strong>13</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-eco-scan</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>eco-radar</code></span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-scan-chain</code></span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1003</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-fact-vault">
+    <td><code>dsh-plugin-fact-vault</code><div class="sub">事实库 · 事实便签库：登记可复用的项目事实，tag 加权检索</div></td>
+    <td>会话与知识库</td>
+    <td>/fact fact_find</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-fact-vault" rel="noopener">121212165/dsh-plugin-fact-vault</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="4">4</td>
+    <td class="score" data-score="12">
+    <strong>12</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-fact-vault</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>handoff-duo</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 4 × 1 = <b>4</b><span class="sub">来源：<code>1001</code>、<code>1002</code>、<code>1003</code>、<code>1005</code></span><span class="sub">F2 计票 4 · 有效 4 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-cache-guard">
+    <td><code>dsh-plugin-cache-guard</code><div class="sub">缓存护栏 · 前缀缓存健康守卫：检测前缀被改写导致的缓存失效多花钱，提醒模型住手</div></td>
+    <td>工具与质量</td>
+    <td>/health cache_status</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-cache-guard" rel="noopener">121212165/dsh-plugin-cache-guard</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-cache-guard</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>saving-combo</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1001</code>、<code>1002</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-obsidian-push">
+    <td><code>dsh-plugin-obsidian-push</code><div class="sub">Obsidian 推送 · 转录推送 Obsidian 库：frontmatter + 内容哈希幂等去重，vault 自动发现；`/archive` 一键归档链</div></td>
+    <td>会话与知识库</td>
+    <td>/obsidian-push /archive</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-obsidian-push" rel="noopener">121212165/dsh-plugin-obsidian-push</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-obsidian-push</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>archive-chain</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1003</code>、<code>1005</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-plugin-forge">
+    <td><code>dsh-plugin-plugin-forge</code><div class="sub">插件锻造 · 插件脚手架：生成过 verify-plugin.mjs 的新插件骨架，validate 模式点名现有插件缺什么</div></td>
+    <td>构建与开发工具</td>
+    <td>/forge forge_new forge_check</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-plugin-forge" rel="noopener">121212165/dsh-plugin-plugin-forge</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-plugin-forge</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>plugin-dev</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1007</code>、<code>1008</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-spend-forecast">
+    <td><code>dsh-plugin-spend-forecast</code><div class="sub">花费预测 · 按日均消耗预测余量撑几天、几号烧穿</div></td>
+    <td>钱与用量</td>
+    <td>/forecast</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-spend-forecast" rel="noopener">121212165/dsh-plugin-spend-forecast</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-spend-forecast</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>saving-combo</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1001</code>、<code>1007</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
   </tr>
   <tr data-plugin="dsh-plugin-tool-trace">
     <td><code>dsh-plugin-tool-trace</code><div class="sub">工具追踪 · 工具调用追踪：做了什么、慢在哪，只记大小不记内容</div></td>
@@ -296,6 +286,10 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
     <td>/tools-stats</td>
     <td><a href="https://github.com/121212165/dsh-plugin-tool-trace" rel="noopener">121212165/dsh-plugin-tool-trace</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-tool-trace</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 1 × 4 = <b>4</b><span class="sub">来源：<code>fuse-daily-driver</code></span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1008</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
   </tr>
   <tr data-plugin="dsh-plugin-transcript">
     <td><code>dsh-plugin-transcript</code><div class="sub">会话转录 · 会话转录归档：user/assistant/tool 全量落 JSONL → Markdown，接 Obsidian 工作流</div></td>
@@ -303,6 +297,32 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
     <td>/transcript</td>
     <td><a href="https://github.com/121212165/dsh-plugin-transcript" rel="noopener">121212165/dsh-plugin-transcript</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="10">
+    <strong>10</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-transcript</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>archive-chain</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1001</code>、<code>1003</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-family-cards">
+    <td><code>dsh-plugin-family-cards</code><div class="sub">家族卡片 · 家族 11 个工具的 web UI 卡片渲染器（补官方 Client 不消费 presentCall 的缺口）</div></td>
+    <td>编排与界面</td>
+    <td>/family-cards</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-family-cards" rel="noopener">121212165/dsh-plugin-family-cards</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="9">
+    <strong>9</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-family-cards</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>plugin-dev</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1007</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-pinboard">
+    <td><code>dsh-plugin-pinboard</code><div class="sub">钉板 · 置顶便签注入系统提示：中途加便签下一回合生效，不用重启</div></td>
+    <td>会话与知识库</td>
+    <td>/pin /pins pin_add</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-pinboard" rel="noopener">121212165/dsh-plugin-pinboard</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="9">
+    <strong>9</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-pinboard</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>handoff-duo</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1001</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
   </tr>
   <tr data-plugin="dsh-plugin-transcript-search">
     <td><code>dsh-plugin-transcript-search</code><div class="sub">转录检索 · 跨会话全文搜索，与 transcript 的 JSONL 契约互通</div></td>
@@ -310,21 +330,118 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
     <td>/find session_search</td>
     <td><a href="https://github.com/121212165/dsh-plugin-transcript-search" rel="noopener">121212165/dsh-plugin-transcript-search</a><div class="sub">MIT · 核于 2026-11-21</div></td>
     <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="9">
+    <strong>9</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-transcript-search</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>archive-chain</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1002</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-prompt-optimize">
+    <td><code>dsh-plugin-prompt-optimize</code><div class="sub">提示词优化 · 提示词审查与改写：8 条本地规则出问题清单，模板重排生成改写稿（vault 存、本插件审）</div></td>
+    <td>工具与质量</td>
+    <td>/opt prompt_review prompt_rewrite</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-prompt-optimize" rel="noopener">121212165/dsh-plugin-prompt-optimize</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="0">0</td>
+    <td class="score" data-score="8">
+    <strong>8</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-prompt-optimize</code></span></li><li><b>被组合</b> 1 × 3 = <b>3</b><span class="sub">来源：<code>plugin-dev</code></span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 0 × 1 = <b>0</b><span class="sub">来源：无</span><span class="sub">F2 计票 0 · 有效 0 · 重复/未成年排除 0/1</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-price-aware">
+    <td><code>dsh-plugin-price-aware</code><div class="sub">价格感知 · 价格感知注入（宿主侧参考实现风格）</div></td>
+    <td>钱与用量</td>
+    <td>/price-aware</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-price-aware" rel="noopener">121212165/dsh-plugin-price-aware</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="2">2</td>
+    <td class="score" data-score="7">
+    <strong>7</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-price-aware</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 2 × 1 = <b>2</b><span class="sub">来源：<code>1002</code>、<code>1003</code></span><span class="sub">F2 计票 2 · 有效 2 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-html-report">
+    <td><code>dsh-plugin-html-report</code><div class="sub">HTML 报告 · 会话渲染成自包含 HTML 报告（深色模式、无外链），分享/归档用</div></td>
+    <td>会话与知识库</td>
+    <td>/report</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-html-report" rel="noopener">121212165/dsh-plugin-html-report</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-html-report</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1008</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 1/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-prompt-vault">
+    <td><code>dsh-plugin-prompt-vault</code><div class="sub">提示词库 · 提示词弹药库：markdown 导入、标签、使用计数，自带 8 条中文种子提示词</div></td>
+    <td>会话与知识库</td>
+    <td>/pv</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-prompt-vault" rel="noopener">121212165/dsh-plugin-prompt-vault</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-prompt-vault</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1005</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-relay-quota">
+    <td><code>dsh-plugin-relay-quota</code><div class="sub">中转额度 · 查任意 OpenAI 兼容中转的余额/用量</div></td>
+    <td>钱与用量</td>
+    <td>/quota quota_check</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-relay-quota" rel="noopener">121212165/dsh-plugin-relay-quota</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-relay-quota</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1008</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-session-insights">
+    <td><code>dsh-plugin-session-insights</code><div class="sub">会话洞察 · 跨会话统计总览：会话数、token、趋势</div></td>
+    <td>会话与知识库</td>
+    <td>/insights</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-session-insights" rel="noopener">121212165/dsh-plugin-session-insights</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-session-insights</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1003</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-token-telemetry">
+    <td><code>dsh-plugin-token-telemetry</code><div class="sub">Token 遥测 · token 遥测 web 面板（官方 useProjection 模式示范）</div></td>
+    <td>钱与用量</td>
+    <td>/token-telemetry</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-token-telemetry" rel="noopener">121212165/dsh-plugin-token-telemetry</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="1">1</td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-token-telemetry</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1007</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
+  </tr>
+  <tr data-plugin="dsh-plugin-error-radar">
+    <td><code>dsh-plugin-error-radar</code><div class="sub">错误雷达 · 错误率/连败/p95 雷达，区分&quot;系统性故障&quot;和&quot;抖动&quot;</div></td>
+    <td>工具与质量</td>
+    <td>/radar /health</td>
+    <td><a href="https://github.com/121212165/dsh-plugin-error-radar" rel="noopener">121212165/dsh-plugin-error-radar</a><div class="sub">MIT · 核于 2026-11-21</div></td>
+    <td class="votes" data-votes="0">0</td>
+    <td class="score" data-score="5">
+    <strong>5</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-error-radar</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 0 × 1 = <b>0</b><span class="sub">来源：无</span><span class="sub">F2 计票 0 · 有效 0 · 重复/未成年排除 0/2</span></li></ul></details>
+  </td>
   </tr></tbody></table>
 
   
   <h2>已降级的失效条目（1）</h2>
   <p class="demoted-note">仓库返回 404 已超过 7 天，已从首页主列表移除；条目仍保留在数据仓中，仓库恢复后会自动回到主列表。</p>
-  <table id="demoted-plugins"><thead><tr><th>插件 / 说明</th><th>降级原因</th><th>仓库</th></tr></thead>
+  <table id="demoted-plugins"><thead><tr><th>插件 / 说明</th><th>降级原因</th><th>仓库</th><th>贡献分（分从哪来）</th></tr></thead>
   <tbody><tr data-plugin="dsh-plugin-local-deep-search" data-demoted="true" data-demotion-reason="仓库 404 已持续 7 天（自 2026-11-09）">
     <td><code>dsh-plugin-local-deep-search</code><div class="sub">本地深搜 · 本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网</div></td>
     <td><span class="badge demoted" title="仓库 404 已持续 7 天（自 2026-11-09）">仓库 404 已持续 7 天（自 2026-11-09）</span></td>
     <td><a href="https://github.com/121212165/dsh-plugin-local-deep-search" rel="noopener">121212165/dsh-plugin-local-deep-search</a></td>
+    <td class="score" data-score="6">
+    <strong>6</strong>
+    <details class="breakdown"><summary>分从哪来</summary><ul><li><b>收录</b> 1 × 5 = <b>5</b><span class="sub">来源：<code>dsh-plugin-local-deep-search</code></span></li><li><b>被组合</b> 0 × 3 = <b>0</b><span class="sub">来源：无</span></li><li><b>被融合</b> 0 × 4 = <b>0</b><span class="sub">来源：无</span></li><li><b>有效票</b> 1 × 1 = <b>1</b><span class="sub">来源：<code>1002</code></span><span class="sub">F2 计票 1 · 有效 1 · 重复/未成年排除 0/0</span></li></ul></details>
+  </td>
   </tr></tbody></table>
 
-  <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>60cfe2e27927</code>）。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>
+  <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>3ece2e1a9d62</code>）；权重来自 <code>schema/score.weights.json</code>。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>
 </div>
-<script id="market-data" type="application/json">{"schemaVersion":1,"generatedAt":"2026-11-23T09:00:00.000Z","source":"dsh-market-data","plugins":[{"id":"dsh-plugin-cache-guard","repo":"121212165/dsh-plugin-cache-guard","npm":"@deepseek-ai/dsh-plugin-cache-guard","name":"缓存护栏","oneLiner":"前缀缓存健康守卫：检测前缀被改写导致的缓存失效多花钱，提醒模型住手","category":"工具与质量","entries":["/health","cache_status"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-cost-ledger","repo":"121212165/dsh-plugin-cost-ledger","npm":"@deepseek-ai/dsh-plugin-cost-ledger","name":"成本台账","oneLiner":"花费持久台账：按月 JSONL、月报、CSV 导出、环比结论","category":"钱与用量","entries":["/ledger"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-deep-scan","repo":"121212165/dsh-plugin-deep-scan","npm":"@deepseek-ai/dsh-plugin-deep-scan","name":"深度扫描","oneLiner":"GitHub 赛道深度扫描器：多词四通道搜索 + 自动挖 topic 迭代，止损规则内置","category":"扫描与研究","entries":["/deep-scan","deep_scan"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-eco-scan","repo":"121212165/dsh-plugin-eco-scan","npm":"@deepseek-ai/dsh-plugin-eco-scan","name":"生态扫描","oneLiner":"dsh 插件生态市场扫描器：topic 全仓 + npm 周下载差值 + 增长评分","category":"扫描与研究","entries":["/eco-scan","eco_scan"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-error-radar","repo":"121212165/dsh-plugin-error-radar","npm":"@deepseek-ai/dsh-plugin-error-radar","name":"错误雷达","oneLiner":"错误率/连败/p95 雷达，区分\"系统性故障\"和\"抖动\"","category":"工具与质量","entries":["/radar","/health"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":0},{"id":"dsh-plugin-fact-vault","repo":"121212165/dsh-plugin-fact-vault","npm":"@deepseek-ai/dsh-plugin-fact-vault","name":"事实库","oneLiner":"事实便签库：登记可复用的项目事实，tag 加权检索","category":"会话与知识库","entries":["/fact","fact_find"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":4},{"id":"dsh-plugin-family-cards","repo":"121212165/dsh-plugin-family-cards","npm":"@deepseek-ai/dsh-plugin-family-cards","name":"家族卡片","oneLiner":"家族 11 个工具的 web UI 卡片渲染器（补官方 Client 不消费 presentCall 的缺口）","category":"编排与界面","entries":["/family-cards"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-html-report","repo":"121212165/dsh-plugin-html-report","npm":"@deepseek-ai/dsh-plugin-html-report","name":"HTML 报告","oneLiner":"会话渲染成自包含 HTML 报告（深色模式、无外链），分享/归档用","category":"会话与知识库","entries":["/report"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-ide-hub","repo":"121212165/dsh-plugin-ide-hub","npm":"@deepseek-ai/dsh-plugin-ide-hub","name":"IDE 中枢","oneLiner":"一个入口管住所有编码 IDE：8 个 IDE 零 API 盘点（含 Trae / Qoder / CatPaw 国产适配）、用量统计、会话一键恢复、规则一份本体多 IDE 下发","category":"编排与界面","entries":["/ide-hub","/hub-usage","/hub-sessions","/hub-init","/today"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":3},{"id":"dsh-plugin-obsidian-push","repo":"121212165/dsh-plugin-obsidian-push","npm":"@deepseek-ai/dsh-plugin-obsidian-push","name":"Obsidian 推送","oneLiner":"转录推送 Obsidian 库：frontmatter + 内容哈希幂等去重，vault 自动发现；`/archive` 一键归档链","category":"会话与知识库","entries":["/obsidian-push","/archive"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-pinboard","repo":"121212165/dsh-plugin-pinboard","npm":"@deepseek-ai/dsh-plugin-pinboard","name":"钉板","oneLiner":"置顶便签注入系统提示：中途加便签下一回合生效，不用重启","category":"会话与知识库","entries":["/pin","/pins","pin_add"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-plugin-forge","repo":"121212165/dsh-plugin-plugin-forge","npm":"@deepseek-ai/dsh-plugin-plugin-forge","name":"插件锻造","oneLiner":"插件脚手架：生成过 verify-plugin.mjs 的新插件骨架，validate 模式点名现有插件缺什么","category":"构建与开发工具","entries":["/forge","forge_new","forge_check"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-price-aware","repo":"121212165/dsh-plugin-price-aware","npm":"@deepseek-ai/dsh-plugin-price-aware","name":"价格感知","oneLiner":"价格感知注入（宿主侧参考实现风格）","category":"钱与用量","entries":["/price-aware"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-prompt-optimize","repo":"121212165/dsh-plugin-prompt-optimize","npm":"@deepseek-ai/dsh-plugin-prompt-optimize","name":"提示词优化","oneLiner":"提示词审查与改写：8 条本地规则出问题清单，模板重排生成改写稿（vault 存、本插件审）","category":"工具与质量","entries":["/opt","prompt_review","prompt_rewrite"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":0},{"id":"dsh-plugin-prompt-vault","repo":"121212165/dsh-plugin-prompt-vault","npm":"@deepseek-ai/dsh-plugin-prompt-vault","name":"提示词库","oneLiner":"提示词弹药库：markdown 导入、标签、使用计数，自带 8 条中文种子提示词","category":"会话与知识库","entries":["/pv"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-quota","repo":"121212165/dsh-plugin-quota","npm":"@deepseek-ai/dsh-plugin-quota","name":"用量仪表","oneLiner":"实时用量仪表 + 下一步预估 + 预算刹车：每回合给模型一行实时 token/花费仪表，模型自己看得见、自己刹","category":"钱与用量","entries":["/qm","/qm-top","quota_meter"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":5,"stars":145,"weeklyDownloads":312,"lastSeenAt":"2026-11-16"},{"id":"dsh-plugin-relay-quota","repo":"121212165/dsh-plugin-relay-quota","npm":"@deepseek-ai/dsh-plugin-relay-quota","name":"中转额度","oneLiner":"查任意 OpenAI 兼容中转的余额/用量","category":"钱与用量","entries":["/quota","quota_check"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-session-insights","repo":"121212165/dsh-plugin-session-insights","npm":"@deepseek-ai/dsh-plugin-session-insights","name":"会话洞察","oneLiner":"跨会话统计总览：会话数、token、趋势","category":"会话与知识库","entries":["/insights"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-spend-forecast","repo":"121212165/dsh-plugin-spend-forecast","npm":"@deepseek-ai/dsh-plugin-spend-forecast","name":"花费预测","oneLiner":"按日均消耗预测余量撑几天、几号烧穿","category":"钱与用量","entries":["/forecast"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-task-forge","repo":"121212165/dsh-plugin-task-forge","npm":"@deepseek-ai/dsh-plugin-task-forge","name":"任务工坊","oneLiner":"把大白话编译成任务书，跨窗口 AI 无损交接：回读握手逼出理解损耗，缺口闭环、版本号跨窗口唯一权威","category":"编排与界面","entries":["/forge","/relay","/ack","/answer","/forge-list"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-token-telemetry","repo":"121212165/dsh-plugin-token-telemetry","npm":"@deepseek-ai/dsh-plugin-token-telemetry","name":"Token 遥测","oneLiner":"token 遥测 web 面板（官方 useProjection 模式示范）","category":"钱与用量","entries":["/token-telemetry"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-tool-trace","repo":"121212165/dsh-plugin-tool-trace","npm":"@deepseek-ai/dsh-plugin-tool-trace","name":"工具追踪","oneLiner":"工具调用追踪：做了什么、慢在哪，只记大小不记内容","category":"工具与质量","entries":["/tools-stats"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-transcript","repo":"121212165/dsh-plugin-transcript","npm":"@deepseek-ai/dsh-plugin-transcript","name":"会话转录","oneLiner":"会话转录归档：user/assistant/tool 全量落 JSONL → Markdown，接 Obsidian 工作流","category":"会话与知识库","entries":["/transcript"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2},{"id":"dsh-plugin-transcript-search","repo":"121212165/dsh-plugin-transcript-search","npm":"@deepseek-ai/dsh-plugin-transcript-search","name":"转录检索","oneLiner":"跨会话全文搜索，与 transcript 的 JSONL 契约互通","category":"会话与知识库","entries":["/find","session_search"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1},{"id":"dsh-plugin-local-deep-search","repo":"121212165/dsh-plugin-local-deep-search","npm":"@deepseek-ai/dsh-plugin-local-deep-search","name":"本地深搜","oneLiner":"本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网","category":"扫描与研究","entries":["/local-research","local_deep_search"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"stars":12,"deadSince":"2026-11-09","demotionReason":"仓库 404 已持续 7 天（自 2026-11-09）"}],"groups":[{"id":"archive-chain","name":"归档链","oneLiner":"一次 /archive 跑通导出 → 推送 → 检索","members":["dsh-plugin-transcript","dsh-plugin-obsidian-push","dsh-plugin-transcript-search"],"why":["transcript 产出的 sessions/*.jsonl 是 obsidian-push 与 transcript-search 共同消费的契约文件","/archive 串联三家：导出 JSONL → 推送到 Obsidian → 立即可被 transcript-search 检索"],"installOrder":"按 members 顺序：transcript → obsidian-push → transcript-search","conflicts":[],"verify":["dump-config 含三个 id","/archive 产出一份 JSONL；/push 能在目标库看到对应笔记；/find 能搜回该会话"],"curator":"editor","updatedAt":"2026-11-21"},{"id":"starter-three","name":"开局三件套","oneLiner":"先看见钱，再看见所有 IDE，最后能跨窗口派活","members":["dsh-plugin-quota","dsh-plugin-ide-hub","dsh-plugin-task-forge"],"why":["task-forge 直接读取 quota 发布的 summary.json 预算契约，派活前先卡预算","ide-hub 的 /today 聚合 quota / cost-ledger / task-forge / tool-trace 四家事实，三件套装完即可看到统一视图"],"installOrder":"按 members 顺序：quota → ide-hub → task-forge","conflicts":[],"verify":["dump-config 含三个 id","/qm 有输出；/ide-hub 能列出至少 1 个 IDE；/forge 只回显不落盘"],"curator":"editor","updatedAt":"2026-11-21"},{"id":"handoff-duo","name":"交接协作","oneLiner":"系统提示注入 + 跨窗口事实检索，换窗口不丢上下文","members":["dsh-plugin-task-forge","dsh-plugin-pinboard","dsh-plugin-fact-vault"],"why":["task-forge 通过 systemPrompt.section 注入待编译任务，pinboard 用同一通道注入置顶事实","fact-vault 从跨会话 JSONL 检索同一批字段，并通过出处字段找回来源"],"installOrder":"按 members 顺序：task-forge → pinboard → fact-vault","conflicts":[],"verify":["dump-config 含三个 id","/pin 后新开会话系统提示含该条；/fact 能检索到带出处的同一事实"],"curator":"editor","updatedAt":"2026-11-20"},{"id":"saving-combo","name":"省钱组合","oneLiner":"同读一份 per-call 成本台账，拦缓存、算预测、对账","members":["dsh-plugin-cache-guard","dsh-plugin-spend-forecast","dsh-plugin-cost-ledger"],"why":["三家都读 cost-ledger 维护的 per-call token / 成本台账字段，口径一致不打架","cache-guard 命中即省一次调用，spend-forecast 直接消费台账算燃烧率"],"installOrder":"按 members 顺序：cost-ledger 数据先立住，再装 cache-guard 与 spend-forecast","conflicts":[],"verify":["dump-config 含三个 id","/health 显示缓存命中；/ledger 有本月汇总；/forecast 与台账口径一致"],"curator":"editor","updatedAt":"2026-11-20"},{"id":"plugin-dev","name":"插件开发","oneLiner":"forge 产物过 verify-plugin，cards 负责渲染交付","members":["dsh-plugin-plugin-forge","dsh-plugin-prompt-optimize","dsh-plugin-family-cards"],"why":["plugin-forge 的 forgeFiles() 产物必须过 dsh-family-tools/tools/verify-plugin.mjs 的质量门","prompt-optimize 改写 /market 入口提示词，family-cards 把结果渲染成家族统一卡片"],"installOrder":"按 members 顺序：plugin-forge → prompt-optimize → family-cards","conflicts":[],"verify":["dump-config 含三个 id","/forge 产出插件骨架且过 verify-plugin；/cards 渲染出卡片"],"curator":"editor","updatedAt":"2026-11-19"},{"id":"eco-radar","name":"生态雷达","oneLiner":"同一套 GitHub 搜索通道与止损规则，先扫后深挖","members":["dsh-plugin-eco-scan","dsh-plugin-deep-scan"],"why":["eco-scan 与 deep-scan 共用 GitHub 搜索通道与搜索止损规则（超时/配额/去重）","eco-scan 先出候选仓清单，deep-scan 按同一 repo id 做源码级复核"],"installOrder":"按 members 顺序：eco-scan → deep-scan","conflicts":[],"verify":["dump-config 含两个 id","/eco-scan 产出候选清单；/deep-scan 对同一 repo id 给出结构清单"],"curator":"editor","updatedAt":"2026-11-18"}]}</script>
+<script id="market-data" type="application/json">{"schemaVersion":1,"generatedAt":"2026-11-23T09:00:00.000Z","source":"dsh-market-data","plugins":[{"id":"dsh-plugin-cache-guard","repo":"121212165/dsh-plugin-cache-guard","npm":"@deepseek-ai/dsh-plugin-cache-guard","name":"缓存护栏","oneLiner":"前缀缓存健康守卫：检测前缀被改写导致的缓存失效多花钱，提醒模型住手","category":"工具与质量","entries":["/health","cache_status"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-cache-guard","detail":"data/plugins/dsh-plugin-cache-guard.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"saving-combo","detail":"省钱组合 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1002","detail":"bob · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-cost-ledger","repo":"121212165/dsh-plugin-cost-ledger","npm":"@deepseek-ai/dsh-plugin-cost-ledger","name":"成本台账","oneLiner":"花费持久台账：按月 JSONL、月报、CSV 导出、环比结论","category":"钱与用量","entries":["/ledger"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":14,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-cost-ledger","detail":"data/plugins/dsh-plugin-cost-ledger.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"saving-combo","detail":"省钱组合 · members[2]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-power-pair","detail":"省钱双核 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1003","detail":"carol · 👍"}],"excluded":{"duplicates":0,"underAge":1,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-deep-scan","repo":"121212165/dsh-plugin-deep-scan","npm":"@deepseek-ai/dsh-plugin-deep-scan","name":"深度扫描","oneLiner":"GitHub 赛道深度扫描器：多词四通道搜索 + 自动挖 topic 迭代，止损规则内置","category":"扫描与研究","entries":["/deep-scan","deep_scan"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":14,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-deep-scan","detail":"data/plugins/dsh-plugin-deep-scan.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"eco-radar","detail":"生态雷达 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-scan-chain","detail":"先扫后挖 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1002","detail":"bob · 👍"},{"id":"1005","detail":"erin · 👍"}],"excluded":{"duplicates":1,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-eco-scan","repo":"121212165/dsh-plugin-eco-scan","npm":"@deepseek-ai/dsh-plugin-eco-scan","name":"生态扫描","oneLiner":"dsh 插件生态市场扫描器：topic 全仓 + npm 周下载差值 + 增长评分","category":"扫描与研究","entries":["/eco-scan","eco_scan"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":13,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-eco-scan","detail":"data/plugins/dsh-plugin-eco-scan.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"eco-radar","detail":"生态雷达 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-scan-chain","detail":"先扫后挖 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1003","detail":"carol · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-error-radar","repo":"121212165/dsh-plugin-error-radar","npm":"@deepseek-ai/dsh-plugin-error-radar","name":"错误雷达","oneLiner":"错误率/连败/p95 雷达，区分\"系统性故障\"和\"抖动\"","category":"工具与质量","entries":["/radar","/health"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":0,"score":5,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-error-radar","detail":"data/plugins/dsh-plugin-error-radar.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":0,"subtotal":0,"sources":[],"excluded":{"duplicates":0,"underAge":2,"invalid":0},"recordedVotes":0,"rawReactions":null}]},{"id":"dsh-plugin-fact-vault","repo":"121212165/dsh-plugin-fact-vault","npm":"@deepseek-ai/dsh-plugin-fact-vault","name":"事实库","oneLiner":"事实便签库：登记可复用的项目事实，tag 加权检索","category":"会话与知识库","entries":["/fact","fact_find"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":4,"score":12,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-fact-vault","detail":"data/plugins/dsh-plugin-fact-vault.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"handoff-duo","detail":"交接协作 · members[2]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":4,"subtotal":4,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1002","detail":"bob · 👍"},{"id":"1003","detail":"carol · 👍"},{"id":"1005","detail":"erin · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":4,"rawReactions":null}]},{"id":"dsh-plugin-family-cards","repo":"121212165/dsh-plugin-family-cards","npm":"@deepseek-ai/dsh-plugin-family-cards","name":"家族卡片","oneLiner":"家族 11 个工具的 web UI 卡片渲染器（补官方 Client 不消费 presentCall 的缺口）","category":"编排与界面","entries":["/family-cards"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":9,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-family-cards","detail":"data/plugins/dsh-plugin-family-cards.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"plugin-dev","detail":"插件开发 · members[2]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1007","detail":"grace · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-html-report","repo":"121212165/dsh-plugin-html-report","npm":"@deepseek-ai/dsh-plugin-html-report","name":"HTML 报告","oneLiner":"会话渲染成自包含 HTML 报告（深色模式、无外链），分享/归档用","category":"会话与知识库","entries":["/report"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-html-report","detail":"data/plugins/dsh-plugin-html-report.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1008","detail":"heidi · 👍"}],"excluded":{"duplicates":1,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-ide-hub","repo":"121212165/dsh-plugin-ide-hub","npm":"@deepseek-ai/dsh-plugin-ide-hub","name":"IDE 中枢","oneLiner":"一个入口管住所有编码 IDE：8 个 IDE 零 API 盘点（含 Trae / Qoder / CatPaw 国产适配）、用量统计、会话一键恢复、规则一份本体多 IDE 下发","category":"编排与界面","entries":["/ide-hub","/hub-usage","/hub-sessions","/hub-init","/today"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":3,"score":15,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-ide-hub","detail":"data/plugins/dsh-plugin-ide-hub.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"starter-three","detail":"开局三件套 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-daily-driver","detail":"日常驾驶舱 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":3,"subtotal":3,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1002","detail":"bob · 👍"},{"id":"1007","detail":"grace · 👍"}],"excluded":{"duplicates":0,"underAge":1,"invalid":0},"recordedVotes":3,"rawReactions":null}]},{"id":"dsh-plugin-obsidian-push","repo":"121212165/dsh-plugin-obsidian-push","npm":"@deepseek-ai/dsh-plugin-obsidian-push","name":"Obsidian 推送","oneLiner":"转录推送 Obsidian 库：frontmatter + 内容哈希幂等去重，vault 自动发现；`/archive` 一键归档链","category":"会话与知识库","entries":["/obsidian-push","/archive"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-obsidian-push","detail":"data/plugins/dsh-plugin-obsidian-push.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"archive-chain","detail":"归档链 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1003","detail":"carol · 👍"},{"id":"1005","detail":"erin · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-pinboard","repo":"121212165/dsh-plugin-pinboard","npm":"@deepseek-ai/dsh-plugin-pinboard","name":"钉板","oneLiner":"置顶便签注入系统提示：中途加便签下一回合生效，不用重启","category":"会话与知识库","entries":["/pin","/pins","pin_add"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":9,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-pinboard","detail":"data/plugins/dsh-plugin-pinboard.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"handoff-duo","detail":"交接协作 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1001","detail":"alice · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-plugin-forge","repo":"121212165/dsh-plugin-plugin-forge","npm":"@deepseek-ai/dsh-plugin-plugin-forge","name":"插件锻造","oneLiner":"插件脚手架：生成过 verify-plugin.mjs 的新插件骨架，validate 模式点名现有插件缺什么","category":"构建与开发工具","entries":["/forge","forge_new","forge_check"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-plugin-forge","detail":"data/plugins/dsh-plugin-plugin-forge.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"plugin-dev","detail":"插件开发 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1007","detail":"grace · 👍"},{"id":"1008","detail":"heidi · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-price-aware","repo":"121212165/dsh-plugin-price-aware","npm":"@deepseek-ai/dsh-plugin-price-aware","name":"价格感知","oneLiner":"价格感知注入（宿主侧参考实现风格）","category":"钱与用量","entries":["/price-aware"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":7,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-price-aware","detail":"data/plugins/dsh-plugin-price-aware.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1002","detail":"bob · 👍"},{"id":"1003","detail":"carol · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-prompt-optimize","repo":"121212165/dsh-plugin-prompt-optimize","npm":"@deepseek-ai/dsh-plugin-prompt-optimize","name":"提示词优化","oneLiner":"提示词审查与改写：8 条本地规则出问题清单，模板重排生成改写稿（vault 存、本插件审）","category":"工具与质量","entries":["/opt","prompt_review","prompt_rewrite"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":0,"score":8,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-prompt-optimize","detail":"data/plugins/dsh-plugin-prompt-optimize.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"plugin-dev","detail":"插件开发 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":0,"subtotal":0,"sources":[],"excluded":{"duplicates":0,"underAge":1,"invalid":0},"recordedVotes":0,"rawReactions":null}]},{"id":"dsh-plugin-prompt-vault","repo":"121212165/dsh-plugin-prompt-vault","npm":"@deepseek-ai/dsh-plugin-prompt-vault","name":"提示词库","oneLiner":"提示词弹药库：markdown 导入、标签、使用计数，自带 8 条中文种子提示词","category":"会话与知识库","entries":["/pv"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-prompt-vault","detail":"data/plugins/dsh-plugin-prompt-vault.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1005","detail":"erin · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-quota","repo":"121212165/dsh-plugin-quota","npm":"@deepseek-ai/dsh-plugin-quota","name":"用量仪表","oneLiner":"实时用量仪表 + 下一步预估 + 预算刹车：每回合给模型一行实时 token/花费仪表，模型自己看得见、自己刹","category":"钱与用量","entries":["/qm","/qm-top","quota_meter"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":5,"stars":145,"weeklyDownloads":312,"lastSeenAt":"2026-11-16","score":17,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-quota","detail":"data/plugins/dsh-plugin-quota.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"starter-three","detail":"开局三件套 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-power-pair","detail":"省钱双核 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":5,"subtotal":5,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1002","detail":"bob · 👍"},{"id":"1003","detail":"carol · 👍"},{"id":"1007","detail":"grace · 👍"},{"id":"1008","detail":"heidi · 👍"}],"excluded":{"duplicates":1,"underAge":1,"invalid":0},"recordedVotes":5,"rawReactions":null}]},{"id":"dsh-plugin-relay-quota","repo":"121212165/dsh-plugin-relay-quota","npm":"@deepseek-ai/dsh-plugin-relay-quota","name":"中转额度","oneLiner":"查任意 OpenAI 兼容中转的余额/用量","category":"钱与用量","entries":["/quota","quota_check"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-relay-quota","detail":"data/plugins/dsh-plugin-relay-quota.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1008","detail":"heidi · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-session-insights","repo":"121212165/dsh-plugin-session-insights","npm":"@deepseek-ai/dsh-plugin-session-insights","name":"会话洞察","oneLiner":"跨会话统计总览：会话数、token、趋势","category":"会话与知识库","entries":["/insights"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-session-insights","detail":"data/plugins/dsh-plugin-session-insights.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1003","detail":"carol · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-spend-forecast","repo":"121212165/dsh-plugin-spend-forecast","npm":"@deepseek-ai/dsh-plugin-spend-forecast","name":"花费预测","oneLiner":"按日均消耗预测余量撑几天、几号烧穿","category":"钱与用量","entries":["/forecast"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-spend-forecast","detail":"data/plugins/dsh-plugin-spend-forecast.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"saving-combo","detail":"省钱组合 · members[1]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1007","detail":"grace · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-task-forge","repo":"121212165/dsh-plugin-task-forge","npm":"@deepseek-ai/dsh-plugin-task-forge","name":"任务工坊","oneLiner":"把大白话编译成任务书，跨窗口 AI 无损交接：回读握手逼出理解损耗，缺口闭环、版本号跨窗口唯一权威","category":"编排与界面","entries":["/forge","/relay","/ack","/answer","/forge-list"],"requires":["tools","systemPrompt"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":17,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-task-forge","detail":"data/plugins/dsh-plugin-task-forge.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":2,"subtotal":6,"sources":[{"id":"starter-three","detail":"开局三件套 · members[2]"},{"id":"handoff-duo","detail":"交接协作 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-daily-driver","detail":"日常驾驶舱 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1002","detail":"bob · 👍"},{"id":"1005","detail":"erin · 👍"}],"excluded":{"duplicates":0,"underAge":1,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-token-telemetry","repo":"121212165/dsh-plugin-token-telemetry","npm":"@deepseek-ai/dsh-plugin-token-telemetry","name":"Token 遥测","oneLiner":"token 遥测 web 面板（官方 useProjection 模式示范）","category":"钱与用量","entries":["/token-telemetry"],"requires":["tools","systemPrompt","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-token-telemetry","detail":"data/plugins/dsh-plugin-token-telemetry.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1007","detail":"grace · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-tool-trace","repo":"121212165/dsh-plugin-tool-trace","npm":"@deepseek-ai/dsh-plugin-tool-trace","name":"工具追踪","oneLiner":"工具调用追踪：做了什么、慢在哪，只记大小不记内容","category":"工具与质量","entries":["/tools-stats"],"requires":["tools","llmMiddleware"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-tool-trace","detail":"data/plugins/dsh-plugin-tool-trace.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":1,"subtotal":4,"sources":[{"id":"fuse-daily-driver","detail":"日常驾驶舱 · sourcePluginIds"}]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1008","detail":"heidi · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-transcript","repo":"121212165/dsh-plugin-transcript","npm":"@deepseek-ai/dsh-plugin-transcript","name":"会话转录","oneLiner":"会话转录归档：user/assistant/tool 全量落 JSONL → Markdown，接 Obsidian 工作流","category":"会话与知识库","entries":["/transcript"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":2,"score":10,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-transcript","detail":"data/plugins/dsh-plugin-transcript.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"archive-chain","detail":"归档链 · members[0]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":2,"subtotal":2,"sources":[{"id":"1001","detail":"alice · 👍"},{"id":"1003","detail":"carol · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":2,"rawReactions":null}]},{"id":"dsh-plugin-transcript-search","repo":"121212165/dsh-plugin-transcript-search","npm":"@deepseek-ai/dsh-plugin-transcript-search","name":"转录检索","oneLiner":"跨会话全文搜索，与 transcript 的 JSONL 契约互通","category":"会话与知识库","entries":["/find","session_search"],"requires":["tools","sessionProjections"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"score":9,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-transcript-search","detail":"data/plugins/dsh-plugin-transcript-search.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":1,"subtotal":3,"sources":[{"id":"archive-chain","detail":"归档链 · members[2]"}]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1002","detail":"bob · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]},{"id":"dsh-plugin-local-deep-search","repo":"121212165/dsh-plugin-local-deep-search","npm":"@deepseek-ai/dsh-plugin-local-deep-search","name":"本地深搜","oneLiner":"本地文档多轮挖词深检索：带行号、可回溯引用的 Markdown 报告，全程不联网","category":"扫描与研究","entries":["/local-research","local_deep_search"],"requires":["tools"],"dshRange":">=0.1.2-rc.1 \u003c0.2.0","license":"MIT","author":"121212165","borrowedFrom":[],"verifiedAt":"2026-11-21","votes":1,"stars":12,"deadSince":"2026-11-09","demotionReason":"仓库 404 已持续 7 天（自 2026-11-09）","score":6,"scoreBreakdown":[{"key":"included","label":"收录","weight":5,"count":1,"subtotal":5,"sources":[{"id":"dsh-plugin-local-deep-search","detail":"data/plugins/dsh-plugin-local-deep-search.json"}]},{"key":"grouped","label":"被组合","weight":3,"count":0,"subtotal":0,"sources":[]},{"key":"fused","label":"被融合","weight":4,"count":0,"subtotal":0,"sources":[]},{"key":"validVotes","label":"有效票","weight":1,"count":1,"subtotal":1,"sources":[{"id":"1002","detail":"bob · 👍"}],"excluded":{"duplicates":0,"underAge":0,"invalid":0},"recordedVotes":1,"rawReactions":null}]}],"groups":[{"id":"archive-chain","name":"归档链","oneLiner":"一次 /archive 跑通导出 → 推送 → 检索","members":["dsh-plugin-transcript","dsh-plugin-obsidian-push","dsh-plugin-transcript-search"],"why":["transcript 产出的 sessions/*.jsonl 是 obsidian-push 与 transcript-search 共同消费的契约文件","/archive 串联三家：导出 JSONL → 推送到 Obsidian → 立即可被 transcript-search 检索"],"installOrder":"按 members 顺序：transcript → obsidian-push → transcript-search","conflicts":[],"verify":["dump-config 含三个 id","/archive 产出一份 JSONL；/push 能在目标库看到对应笔记；/find 能搜回该会话"],"curator":"editor","updatedAt":"2026-11-21"},{"id":"starter-three","name":"开局三件套","oneLiner":"先看见钱，再看见所有 IDE，最后能跨窗口派活","members":["dsh-plugin-quota","dsh-plugin-ide-hub","dsh-plugin-task-forge"],"why":["task-forge 直接读取 quota 发布的 summary.json 预算契约，派活前先卡预算","ide-hub 的 /today 聚合 quota / cost-ledger / task-forge / tool-trace 四家事实，三件套装完即可看到统一视图"],"installOrder":"按 members 顺序：quota → ide-hub → task-forge","conflicts":[],"verify":["dump-config 含三个 id","/qm 有输出；/ide-hub 能列出至少 1 个 IDE；/forge 只回显不落盘"],"curator":"editor","updatedAt":"2026-11-21"},{"id":"handoff-duo","name":"交接协作","oneLiner":"系统提示注入 + 跨窗口事实检索，换窗口不丢上下文","members":["dsh-plugin-task-forge","dsh-plugin-pinboard","dsh-plugin-fact-vault"],"why":["task-forge 通过 systemPrompt.section 注入待编译任务，pinboard 用同一通道注入置顶事实","fact-vault 从跨会话 JSONL 检索同一批字段，并通过出处字段找回来源"],"installOrder":"按 members 顺序：task-forge → pinboard → fact-vault","conflicts":[],"verify":["dump-config 含三个 id","/pin 后新开会话系统提示含该条；/fact 能检索到带出处的同一事实"],"curator":"editor","updatedAt":"2026-11-20"},{"id":"saving-combo","name":"省钱组合","oneLiner":"同读一份 per-call 成本台账，拦缓存、算预测、对账","members":["dsh-plugin-cache-guard","dsh-plugin-spend-forecast","dsh-plugin-cost-ledger"],"why":["三家都读 cost-ledger 维护的 per-call token / 成本台账字段，口径一致不打架","cache-guard 命中即省一次调用，spend-forecast 直接消费台账算燃烧率"],"installOrder":"按 members 顺序：cost-ledger 数据先立住，再装 cache-guard 与 spend-forecast","conflicts":[],"verify":["dump-config 含三个 id","/health 显示缓存命中；/ledger 有本月汇总；/forecast 与台账口径一致"],"curator":"editor","updatedAt":"2026-11-20"},{"id":"plugin-dev","name":"插件开发","oneLiner":"forge 产物过 verify-plugin，cards 负责渲染交付","members":["dsh-plugin-plugin-forge","dsh-plugin-prompt-optimize","dsh-plugin-family-cards"],"why":["plugin-forge 的 forgeFiles() 产物必须过 dsh-family-tools/tools/verify-plugin.mjs 的质量门","prompt-optimize 改写 /market 入口提示词，family-cards 把结果渲染成家族统一卡片"],"installOrder":"按 members 顺序：plugin-forge → prompt-optimize → family-cards","conflicts":[],"verify":["dump-config 含三个 id","/forge 产出插件骨架且过 verify-plugin；/cards 渲染出卡片"],"curator":"editor","updatedAt":"2026-11-19"},{"id":"eco-radar","name":"生态雷达","oneLiner":"同一套 GitHub 搜索通道与止损规则，先扫后深挖","members":["dsh-plugin-eco-scan","dsh-plugin-deep-scan"],"why":["eco-scan 与 deep-scan 共用 GitHub 搜索通道与搜索止损规则（超时/配额/去重）","eco-scan 先出候选仓清单，deep-scan 按同一 repo id 做源码级复核"],"installOrder":"按 members 顺序：eco-scan → deep-scan","conflicts":[],"verify":["dump-config 含两个 id","/eco-scan 产出候选清单；/deep-scan 对同一 repo id 给出结构清单"],"curator":"editor","updatedAt":"2026-11-18"}]}</script>
+<script id="score-weights" type="application/json">{"schemaVersion":1,"title":"F8 contribution score weights — single source of truth","description":"公开权重：贡献分 = Σ(分项数量 × 权重)。代码与页面都从本文件读取；改本文件即改变榜单与页面的「分从哪来」解释，无需改逻辑。","weights":{"included":{"points":5,"label":"收录","description":"插件在 data/plugins/ 有一条正式收录（每插件计 1 次）"},"grouped":{"points":3,"label":"被组合","description":"被一个编辑/社区组列为成员（每组计 1 次，来源写组 id）"},"fused":{"points":4,"label":"被融合","description":"被一次 F3 融合用作来源插件（每次计 1 次，来源写融合事件 id）"},"validVotes":{"points":1,"label":"有效票","description":"F2 快照中通过一人一票 + 账号龄门槛的有效 👍（每票计 1 次；票数最易刷，故权重最低）"}},"antiGaming":{"oneVotePerAccount":true,"accountAgeDaysMin":30,"duplicateVotesExcluded":true,"rawReactionsIgnored":true,"note":"沿用 F2：同一账号跨讨论重复 reaction 只算 1 票，账号龄不足 30 天不计；原始 reaction 数与重复票不进入有效票，因此也不会进入贡献分。"}}</script>
 <script>
 (function () {
   var data = JSON.parse(document.getElementById('market-data').textContent);
