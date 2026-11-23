@@ -63,6 +63,7 @@ function pluginRow(p) {
     <td>${esc(p.category)}</td>
     <td>${esc((p.entries || []).join(' '))}</td>
     <td><a href="https://github.com/${esc(p.repo)}" rel="noopener">${esc(p.repo)}</a><div class="sub">${esc(p.license)} · 核于 ${esc(p.verifiedAt)}</div></td>
+    <td class="votes" data-votes="${Number.isInteger(p.votes) ? p.votes : 0}">${Number.isInteger(p.votes) ? p.votes : '—'}</td>
   </tr>`;
 }
 
@@ -128,7 +129,7 @@ footer{margin-top:44px;color:var(--muted);font-size:12px;border-top:1px solid va
   </div>
 
   <h2>全部插件（${index.plugins.length}）</h2>
-  <table><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th></tr></thead>
+  <table><thead><tr><th>插件 / 说明</th><th>分类</th><th>入口</th><th>仓库</th><th>票数</th></tr></thead>
   <tbody>${index.plugins.map(pluginRow).join('\n  ')}</tbody></table>
 
   <footer>数据来自 <code>dsh-market-data/data/index.json</code>（嵌入构建，sha256 <code>${esc(sourceSha256.slice(0, 12))}</code>）。票数 / 投稿等写操作见 dsh 内 <code>/market</code>。</footer>

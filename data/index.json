@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T12:09:28.869Z",
+  "generatedAt": "2026-11-23T09:00:00.000Z",
   "source": "dsh-market-data",
   "plugins": [
     {
@@ -22,7 +22,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-cost-ledger",
@@ -43,7 +44,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-deep-scan",
@@ -63,7 +65,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-eco-scan",
@@ -83,7 +86,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-error-radar",
@@ -104,7 +108,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 0
     },
     {
       "id": "dsh-plugin-fact-vault",
@@ -125,7 +130,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 4
     },
     {
       "id": "dsh-plugin-family-cards",
@@ -145,7 +151,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-html-report",
@@ -165,7 +172,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-ide-hub",
@@ -189,7 +197,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 3
     },
     {
       "id": "dsh-plugin-local-deep-search",
@@ -209,7 +218,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-obsidian-push",
@@ -230,7 +240,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-pinboard",
@@ -252,7 +263,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-plugin-forge",
@@ -273,7 +285,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-price-aware",
@@ -294,7 +307,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-prompt-optimize",
@@ -316,7 +330,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 0
     },
     {
       "id": "dsh-plugin-prompt-vault",
@@ -336,7 +351,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-quota",
@@ -359,7 +375,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 5
     },
     {
       "id": "dsh-plugin-relay-quota",
@@ -381,7 +398,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-session-insights",
@@ -401,7 +419,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-spend-forecast",
@@ -422,7 +441,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-task-forge",
@@ -446,7 +466,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-token-telemetry",
@@ -467,7 +488,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-tool-trace",
@@ -487,7 +509,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     },
     {
       "id": "dsh-plugin-transcript",
@@ -507,7 +530,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 2
     },
     {
       "id": "dsh-plugin-transcript-search",
@@ -528,7 +552,8 @@
       "license": "MIT",
       "author": "121212165",
       "borrowedFrom": [],
-      "verifiedAt": "2026-11-21"
+      "verifiedAt": "2026-11-21",
+      "votes": 1
     }
   ],
   "groups": [
