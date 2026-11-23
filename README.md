@@ -44,3 +44,21 @@ node scripts/submission.mjs check --issue test/fixtures/submissions/<样本>.md 
 
 诚实声明（沿用 M4 口径）：本地无 gh 身份/远程，**Actions 未实跑**；`verify-plugin` 在本地证据里
 以注入的确定性输出复验 PR 正文包含关系，真实 Action 在 GitHub 上对投稿 repo 跑 vendored 工具。
+
+## 投票快照（F2）
+
+每个插件一条 Discussion（标题 `Vote: <plugin-id>`，正文带 `<!-- dsh-market-plugin-id: <plugin-id> -->` 稳定标记），只统计 👍 reaction：
+
+```bash
+# 真跑（需要 token；GraphQL 必须认证）
+GITHUB_TOKEN=... node scripts/vote-snapshot.mjs --category "Plugin Votes"
+
+# 无 token 的离线复验（fixture 不访问 GitHub API）
+node scripts/vote-snapshot.mjs --fixture test/fixtures/votes/discussions.json
+node scripts/build-index.mjs && node scripts/build-site.mjs
+node --test test/vote-snapshot.test.mjs
+```
+
+规则：按 GitHub `databaseId`（缺则 login 小写）去重 → **一人一票**；账号龄 < 30 天（可用 `--min-account-age-days` 调整）不计；`createdAt` 缺失/非法失败关闭；非 👍 reaction 不计。产物 `data/votes.json` 同时提供每个插件的 `votes` 与 `generatedAt`，`build-index` 用它作为**唯一来源**写入 `index.json`（超 24h 页面自动标「快照」）。`npm run validate` 会校验 votes 契约、孤儿票与汇总一致性。
+
+`.github/workflows/vote-snapshot.yml` 定时（6h）+ 手动抓取并提交刷新后的 `votes.json` / `index.json` / `snapshot.json` / `site/index.html`。插件侧 `/market vote` 与未登录 `gh auth login` 指引是跨仓后续项，不在本仓。
