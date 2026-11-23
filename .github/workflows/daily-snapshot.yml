@@ -1,0 +1,51 @@
+name: market / daily snapshot
+
+# F7: one snapshot per day (GitHub stars + npm weekly downloads). A repo that
+# returns 404 is recorded with `deadSince`; build-index demotes it on the
+# homepage after 7 days without deleting the entry. Partial fetch failures
+# degrade to the last good numbers instead of failing the job.
+on:
+  schedule:
+    - cron: '23 2 * * *'   # every day 02:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-daily-snapshot
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Fetch stars / npm downloads (404 -> deadSince, failures -> fallback)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/snapshot.mjs
+
+      - name: Rebuild index + site (dead-link demotion + stale badges)
+        run: |
+          node scripts/build-index.mjs
+          node scripts/build-site.mjs
+
+      - name: Validate dataset (votes + snapshot contracts)
+        run: node scripts/validate.mjs
+
+      - name: Commit refreshed snapshot / index / site
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/snapshots data/index.json data/snapshot.json site/index.html
+          if git diff --cached --quiet; then
+            echo 'daily snapshot unchanged; nothing to commit'
+          else
+            git commit -m 'chore(f7): refresh daily metrics snapshot'
+            git push
+          fi

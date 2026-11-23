@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-11-16T02:23:00.000Z",
+  "date": "2026-11-16",
+  "source": "fixture:test/fixtures/snapshots/metrics.json",
+  "metrics": {
+    "dsh-plugin-local-deep-search": {
+      "status": 404,
+      "deadSince": "2026-11-09",
+      "stars": 12
+    },
+    "dsh-plugin-quota": {
+      "status": 200,
+      "stars": 145,
+      "weeklyDownloads": 312
+    },
+    "dsh-plugin-eco-scan": {
+      "status": 0,
+      "error": "ETIMEDOUT"
+    }
+  }
+}
