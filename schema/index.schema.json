@@ -35,7 +35,36 @@
           "deadSince": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
           "demotionReason": { "type": "string", "minLength": 1 },
           "staleReason": { "type": "string", "minLength": 1 },
-          "votes": { "type": "integer" }
+          "votes": { "type": "integer" },
+          "score": { "type": "integer", "minimum": 0 },
+          "scoreBreakdown": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["key", "label", "weight", "count", "subtotal", "sources"],
+              "properties": {
+                "key": { "type": "string", "enum": ["included", "grouped", "fused", "validVotes"] },
+                "label": { "type": "string", "minLength": 1 },
+                "weight": { "type": "integer", "minimum": 0 },
+                "count": { "type": "integer", "minimum": 0 },
+                "subtotal": { "type": "integer", "minimum": 0 },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id"],
+                    "properties": {
+                      "id": { "type": "string", "minLength": 1 },
+                      "detail": { "type": "string" }
+                    }
+                  }
+                },
+                "excluded": { "type": "object" },
+                "recordedVotes": { "type": "integer" },
+                "rawReactions": {}
+              }
+            }
+          }
         }
       }
     },

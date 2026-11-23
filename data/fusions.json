@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-21T12:09:28.869Z",
+  "source": "F3 real fuse event: task/f3-fuse@f34cdac · scripts/make-fuse-evidence.mjs · f3-fuse-evidence.md",
+  "status": "f3-real",
+  "note": "来自 F3 的真实融合实样（quota + cost-ledger）：复用 dsh-plugin-quota 的 req:tools / req:systemPrompt / req:sessionProjections / cat:钱与用量 / data:cost / data:forecast 六项，dsh-plugin-cost-ledger 直接接入不重写；上游借鉴：无；MIT/Apache-2.0 白名单，官方门禁 0 FAIL/0 WARN。",
+  "events": [
+    {
+      "id": "fuse-quota-cost-ledger",
+      "name": "用量+成本融合",
+      "sourcePluginIds": [
+        "dsh-plugin-quota",
+        "dsh-plugin-cost-ledger"
+      ],
+      "license": "MIT",
+      "at": "2026-11-21"
+    }
+  ]
+}
