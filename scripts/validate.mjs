@@ -27,6 +27,27 @@ const PLACEHOLDER_RE = /\b(?:TODO|TBD|待补|待写|应该能用|占位|placehol
 const DEAD_REPOS = new Set(['121212165/dsh-plugin-dead-link', 'example/gone']);
 const OBVIOUSLY_DEAD_RE = /does-not-exist|not-exist|doesnt-exist|404|dead-link/i;
 
+/**
+ * Classify a human-readable validation message into a stable machine code.
+ * Kept separate from `validateDataset` so the exported API (an array of
+ * human-readable strings) stays backwards-compatible while `--json` callers
+ * get structured error codes.
+ */
+export function classifyValidationError(message) {
+  const text = String(message);
+  if (/\bduplicate-id\b/.test(text)) return 'DUPLICATE_PLUGIN_ID';
+  if (/\bdead-repo\b/.test(text)) return 'DEAD_REPO';
+  if (/\bunknown-member\b/.test(text)) return 'UNKNOWN_MEMBER';
+  if (/\bplaceholder\b/i.test(text)) return 'PLACEHOLDER_FIELD';
+  if (/\bwhy\b/.test(text) && /\bempty\b/.test(text)) return 'GROUP_MISSING_WHY';
+  if (/\bwhy\b/.test(text)) return 'GROUP_MISSING_WHY';
+  if (/\bschema\b/.test(text)) return 'SCHEMA_INVALID';
+  if (/shape/.test(text)) return 'SHAPE_MISMATCH';
+  if (/count/.test(text)) return 'COUNT_MISMATCH';
+  if (/\bverifiedAt\b|\bupdatedAt\b/.test(text)) return 'BAD_DATE';
+  return 'VALIDATION_ERROR';
+}
+
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -172,43 +193,112 @@ function readCategories() {
   }
 }
 
+/** Parse CLI flags. `--extra <path>` may be repeated; it injects one fixture
+ * (a plugin or group JSON) into the corresponding validation set. */
+function parseArgs(argv) {
+  const args = { json: false, online: false, extras: [] };
+  for (let i = 0; i < argv.length; i += 1) {
+    const token = argv[i];
+    if (token === '--json') args.json = true;
+    else if (token === '--online') args.online = true;
+    else if (token === '--offline') { /* offline is the default */ }
+    else if (token === '--extra') {
+      const file = argv[++i];
+      if (file) args.extras.push(file);
+    } else if (token.startsWith('--extra=')) {
+      args.extras.push(token.slice('--extra='.length));
+    }
+  }
+  return args;
+}
+
+function readExtra(folder, file) {
+  const data = JSON.parse(readFileSync(file, 'utf8'));
+  return { file, data, folder };
+}
+
+/** Structured report shared by `--json` output and programmatic callers. */
+function buildReport(errors, plugins, groups, onlineErrors = []) {
+  const all = [...errors, ...onlineErrors];
+  return {
+    ok: all.length === 0,
+    counts: { plugins: plugins.length, groups: groups.length, errors: all.length },
+    errors: all.map((message, index) => {
+      const text = String(message);
+      const match = text.match(/^(.*?):\s*([^—]+?)\s*—\s*(.*)$/s);
+      return {
+        code: classifyValidationError(text),
+        index,
+        file: match ? match[1] : '',
+        rule: match ? match[2].trim() : '',
+        detail: match ? match[3].trim() : text,
+        message: text,
+      };
+    }),
+  };
+}
+
 async function main() {
-  const online = process.argv.includes('--online');
+  const args = parseArgs(process.argv.slice(2));
+  const online = args.online;
   const plugins = readDir('plugins');
   const groups = readDir('groups');
+  for (const file of args.extras) {
+    const normalized = file.replace(/\\/g, '/');
+    const folder = /(^|\/)plugins\//.test(normalized) ? 'plugins'
+      : /(^|\/)groups\//.test(normalized) ? 'groups' : null;
+    if (!folder) {
+      console.error(`validate: --extra path must sit under plugins/ or groups/: ${file}`);
+      process.exit(2);
+    }
+    const entry = readExtra(folder, file);
+    (folder === 'plugins' ? plugins : groups).push(entry);
+  }
+  const onDiskPlugins = plugins.length;
+  const onDiskGroups = groups.length;
   const errors = validateDataset({ plugins, groups, categories: readCategories(), schemas: loadSchemas() });
 
   // M0 验收：snapshot 与 index 必须同构，且 index 覆盖全部 seed 实体。
+  // `--extra` fixtures are deliberately excluded from this count check.
   try {
     const idx = JSON.parse(readFileSync(join(root, 'data', 'index.json'), 'utf8'));
     const snap = JSON.parse(readFileSync(join(root, 'data', 'snapshot.json'), 'utf8'));
     if (!isIsomorphic(idx, snap)) {
       errors.push('snapshot.json: shape — snapshot 与 index.json 结构不同构 (M0 验收)');
     }
-    if (idx.plugins?.length !== plugins.length || idx.groups?.length !== groups.length) {
-      errors.push(`index.json: count — index(${idx.plugins?.length}/${idx.groups?.length}) 与 data/(${plugins.length}/${groups.length}) 不一致`);
+    if (idx.plugins?.length !== onDiskPlugins || idx.groups?.length !== onDiskGroups) {
+      errors.push(`index.json: count — index(${idx.plugins?.length}/${idx.groups?.length}) 与 data/(${onDiskPlugins}/${onDiskGroups}) 不一致`);
     }
   } catch (error) {
     errors.push(`index/snapshot: ${error.message}`);
   }
 
+  let onlineErrors = [];
   if (online) {
-    const onlineErrors = await checkReposOnline(plugins);
+    const liveErrors = await checkReposOnline(plugins);
     let knownDead = [];
     try {
       knownDead = JSON.parse(readFileSync(join(root, 'data', 'liveness.json'), 'utf8')).knownDead || [];
     } catch { /* liveness.json 可选 */ }
-    for (const message of onlineErrors) {
+    for (const message of liveErrors) {
       if (knownDead.some((slug) => message.includes(slug))) {
         console.warn(`  ! known-dead (F7 将降权): ${message}`);
       } else {
-        errors.push(message);
+        onlineErrors.push(message);
       }
     }
   }
-  if (errors.length) {
-    console.error(`validate: ${errors.length} error(s)`);
-    for (const error of errors) console.error(`  ✗ ${error}`);
+
+  const report = buildReport(errors, plugins, groups, onlineErrors);
+  if (args.json) {
+    // Important: stdout carries ONLY the JSON document; all human diagnostics
+    // go to stderr. Callers can parse stdout unconditionally in this mode.
+    console.log(JSON.stringify(report));
+    process.exit(report.ok ? 0 : 1);
+  }
+  if (!report.ok) {
+    console.error(`validate: ${report.counts.errors} error(s)`);
+    for (const error of report.errors) console.error(`  ✗ ${error.message}`);
     process.exit(1);
   }
   console.log(`validate: green — ${plugins.length} plugins, ${groups.length} groups pass all offline rules`);
