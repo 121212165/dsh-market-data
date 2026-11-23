@@ -1,10 +1,10 @@
 {
   "milestone": "M4",
-  "generatedAt": "2026-11-21T11:36:48.203Z",
+  "generatedAt": "2026-11-23T10:27:52.239Z",
   "index": {
-    "sha256": "61ed848e656088f5123682dccf678d3ee3edd103288a9837aee4170c84d931a6",
-    "generatedAt": "2026-11-21T11:35:31.544Z",
-    "plugins": 26,
+    "sha256": "c039dae8b56fe7f673ce439b0f242a3af54b2cf1b829298e1b27422c010486c4",
+    "generatedAt": "2026-11-23T09:00:00.000Z",
+    "plugins": 25,
     "groups": 6
   },
   "placeholderPr": {
@@ -24,27 +24,5 @@
     "clipboardHandlerPresent": true
   },
   "errors": [],
-  "pass": true,
-  "browser": {
-    "engine": "msedge",
-    "cardCount": 6,
-    "copyButtons": 6,
-    "expectedCommand": "/market install archive-chain",
-    "clipboardText": "/market install archive-chain",
-    "copyOk": true,
-    "copiedLabel": "已复制",
-    "narrowNoOverflow": true,
-    "geometry": {
-      "inner": 360,
-      "doc": 360,
-      "body": 360
-    },
-    "staleBadgeOk": true,
-    "consoleErrors": [],
-    "screenshots": [
-      "m4-1280-light.png",
-      "m4-360-dark.png"
-    ],
-    "errors": []
-  }
+  "pass": true
 }

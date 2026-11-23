@@ -5,7 +5,7 @@
  *   3. every group exposes a copyable `/market install <id>` command
  */
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkEntry } from './check-pr.mjs';
@@ -35,7 +35,11 @@ buildSite();
 const raw = read('data/index.json');
 const sha = createHash('sha256').update(raw).digest('hex');
 const index = normalizeIndex(JSON.parse(raw));
-const expectedHtml = renderHtml(JSON.parse(raw), { sourceSha256: sha, builtAt: index.generatedAt });
+// F8: buildSite also injects the public weight table; reproduce that here so
+// the byte comparison stays valid after the score legend was added to the page.
+const weights = existsSync(join(ROOT, 'schema', 'score.weights.json'))
+  ? JSON.parse(read(join('schema', 'score.weights.json'))) : null;
+const expectedHtml = renderHtml(JSON.parse(raw), { sourceSha256: sha, builtAt: index.generatedAt, weights });
 const actualHtml = read('site/index.html');
 criteria.siteRebuildIsByteIdentical = expectedHtml === actualHtml;
 if (!criteria.siteRebuildIsByteIdentical) errors.push('site/index.html is stale vs data/index.json');
