@@ -21,7 +21,14 @@ import {
   buildMetricsSnapshot,
   resolveDeadSince,
 } from '../scripts/snapshot-lib.mjs';
-import { fetchNpm, fetchRepo, readSnapshot } from '../scripts/snapshot.mjs';
+import {
+  collectLiveMetrics,
+  fetchNpm,
+  fetchEcoScanMetrics,
+  fetchRepo,
+  parseEcoScanMetrics,
+  readSnapshot,
+} from '../scripts/snapshot.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const fixturePath = join(root, 'test', 'fixtures', 'snapshots', 'metrics.json');
@@ -163,6 +170,120 @@ test('only HTTP 404 is classified as a dead repo (injected fetch, no network)', 
   assert.equal(repo.status, 404, '404 -> dead');
   const npm = await fetchNpm('@scope/pkg', { fetchImpl: fakeFetch });
   assert.equal(npm.weeklyDownloads, 42, 'npm weekly downloads parsed');
+});
+
+/* ------------------------------------------------------------------ *
+ * eco-scan database integration: preferred metrics, market catalog stays local
+ * ------------------------------------------------------------------ */
+const jsonResponse = (body, status = 200) => new Response(JSON.stringify(body), {
+  status,
+  headers: { 'content-type': 'application/json' },
+});
+
+function ecoPayload() {
+  return {
+    meta: {
+      date: '2026-11-20',
+      // Intentionally reordered to ensure mapping is driven by metadata.
+      columns: [
+        { index: 2, field: 'id' },
+        { index: 0, field: 'stars' },
+        { index: 1, field: 'weekly' },
+      ],
+    },
+    rows: [
+      [321, 44, 'owner/cached'],
+      [1, 2, 'other/not-in-market'],
+    ],
+  };
+}
+
+test('eco-scan export maps by repo and supplies metrics while GitHub API still determines 404', async () => {
+  const plugins = [
+    { id: 'dsh-plugin-cached', repo: 'owner/cached', npm: '@scope/cached' },
+    { id: 'dsh-plugin-live', repo: 'owner/live', npm: '@scope/live' },
+  ];
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(String(url));
+    if (String(url).includes('/data/eco-data.json')) return jsonResponse(ecoPayload());
+    if (String(url) === 'https://api.github.com/repos/owner/cached') return new Response(null, { status: 404 });
+    if (String(url) === 'https://api.github.com/repos/owner/live') return jsonResponse({ stargazers_count: 8 });
+    if (String(url).includes('api.npmjs.org/downloads/point/last-week/')) return jsonResponse({ downloads: 15 });
+    throw new Error(`unexpected URL ${url}`);
+  };
+
+  const collected = await collectLiveMetrics({
+    plugins, fetchImpl, token: 'test-token', observedAt: '2026-11-24T12:00:00.000Z',
+  });
+  assert.equal(collected.ecoScan.ok, true);
+  assert.equal(collected.ecoScan.date, '2026-11-20');
+  assert.equal(collected.ecoScan.matched, 1);
+  assert.match(collected.source, /eco-scan:2026-11-20/);
+  assert.deepEqual(collected.metrics[0], {
+    pluginId: 'dsh-plugin-cached', repo: 'owner/cached', status: 404,
+    stars: 321, weeklyDownloads: 44, lastSeenAt: '2026-11-20', error: null,
+  });
+  assert.equal(collected.metrics[1].status, 200);
+  assert.equal(collected.metrics[1].stars, 8, 'live GitHub values fill/override absent eco rows');
+  assert.equal(collected.metrics[1].weeklyDownloads, 15, 'live npm API fills plugins absent from eco export');
+  assert.equal(collected.metrics[1].lastSeenAt, '2026-11-24');
+  assert.equal(calls.filter((url) => url.includes('api.npmjs.org')).length, 1,
+    'eco metrics avoid duplicate npm API requests; unmatched plugin still falls back live');
+
+  const snapshot = buildMetricsSnapshot({
+    plugins, metrics: collected.metrics, day: '2026-11-24', now: '2026-11-24T12:00:00.000Z', source: collected.source,
+  });
+  assert.equal(snapshot.entries[0].status, 404);
+  assert.equal(snapshot.entries[0].deadSince, '2026-11-24', 'eco metrics do not hide a live GitHub 404');
+  assert.equal(snapshot.entries[0].stars, 321);
+  assert.equal(snapshot.entries[0].weeklyDownloads, 44);
+});
+
+test('malformed or duplicate eco rows fail closed for that source and direct APIs remain usable', async () => {
+  const plugin = { id: 'dsh-plugin-cached', repo: 'owner/cached', npm: '@scope/cached' };
+  const parsed = parseEcoScanMetrics({
+    ...ecoPayload(),
+    rows: [[321, 44, 'owner/cached'], [999, 88, 'OWNER/CACHED']],
+  }, [plugin]);
+  assert.deepEqual(parsed.ambiguous, ['owner/cached']);
+  assert.equal(parsed.byRepo.has('owner/cached'), false, 'ambiguous duplicate rows are not guessed');
+  assert.throws(() => parseEcoScanMetrics({ meta: { date: '2026-11-20', columns: [] }, rows: [] }, [plugin]), /missing required field/);
+
+  const collected = await collectLiveMetrics({
+    plugins: [plugin],
+    fetchImpl: async (url) => {
+      if (String(url).includes('/data/eco-data.json')) return new Response('temporarily unavailable', { status: 503 });
+      if (String(url) === 'https://api.github.com/repos/owner/cached') return jsonResponse({ stargazers_count: 12 });
+      if (String(url).includes('api.npmjs.org')) return jsonResponse({ downloads: 34 });
+      throw new Error(`unexpected URL ${url}`);
+    },
+    observedAt: '2026-11-24T12:00:00.000Z',
+  });
+  assert.equal(collected.ecoScan.ok, false);
+  assert.match(collected.source, /eco-scan unavailable; live fallback/);
+  assert.equal(collected.metrics[0].stars, 12);
+  assert.equal(collected.metrics[0].weeklyDownloads, 34);
+});
+
+test('eco-scan raw timeout/error falls back to the configured CDN mirror', async () => {
+  const plugins = [{ id: 'dsh-plugin-cached', repo: 'owner/cached', npm: '@scope/cached' }];
+  const calls = [];
+  const result = await fetchEcoScanMetrics({
+    plugins,
+    url: 'https://raw.example/eco-data.json',
+    mirrorUrl: 'https://cdn.example/eco-data.json',
+    timeoutMs: 1000,
+    fetchImpl: async (url) => {
+      calls.push(String(url));
+      if (String(url).startsWith('https://raw.example/')) return new Response('temporarily unavailable', { status: 503 });
+      return jsonResponse(ecoPayload());
+    },
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.source, 'https://cdn.example/eco-data.json');
+  assert.equal(result.byRepo.get('owner/cached').stars, 321);
+  assert.deepEqual(calls, ['https://raw.example/eco-data.json', 'https://cdn.example/eco-data.json']);
 });
 
 /* ------------------------------------------------------------------ *

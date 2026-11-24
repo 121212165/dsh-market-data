@@ -82,6 +82,12 @@ export function snapshotEntryMap(snapshot) {
   return out;
 }
 
+function newestObservation(...values) {
+  return values
+    .filter((value) => timeOf(value) != null)
+    .sort((a, b) => timeOf(b) - timeOf(a))[0] ?? null;
+}
+
 /**
  * Turn raw per-plugin metrics into the committed daily snapshot contract.
  *
@@ -127,9 +133,11 @@ export function buildMetricsSnapshot({
     const weeklyDownloads = Number.isInteger(raw.weeklyDownloads)
       ? raw.weeklyDownloads
       : (prev.weeklyDownloads ?? null);
-    const lastSeenAt = dead || failed
+    const lastSeenAt = dead
       ? (prev.lastSeenAt ?? null)
-      : (raw.lastSeenAt ?? date);
+      : failed
+        ? newestObservation(raw.lastSeenAt, prev.lastSeenAt)
+        : (raw.lastSeenAt ?? date);
 
     summary.total++;
     if (dead) summary.dead++;

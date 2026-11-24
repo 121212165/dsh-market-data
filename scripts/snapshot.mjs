@@ -20,8 +20,11 @@ import { buildMetricsSnapshot, utcDay } from './snapshot-lib.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const GITHUB_API = 'https://api.github.com';
 const NPM_DOWNLOADS = 'https://api.npmjs.org/downloads/point/last-week';
+export const DEFAULT_ECO_SCAN_URL = 'https://raw.githubusercontent.com/121212165/dsh-plugin-eco-scan/main/data/eco-data.json';
+export const DEFAULT_ECO_SCAN_MIRROR_URL = 'https://cdn.jsdelivr.net/gh/121212165/dsh-plugin-eco-scan@main/data/eco-data.json';
 const DEFAULT_OUT = join(ROOT, 'data', 'snapshots');
 const TIMEOUT_MS = 8000;
+const ECO_SCAN_TIMEOUT_MS = 12000;
 
 async function getJson(url, { headers = {}, signal, fetchImpl = fetch } = {}) {
   const res = await fetchImpl(url, {
@@ -78,6 +81,125 @@ export async function fetchNpm(pkg, { fetchImpl = fetch, timeoutMs = TIMEOUT_MS 
   }
 }
 
+function metricValue(value) {
+  return Number.isInteger(value) && value >= 0 ? value : null;
+}
+
+/** Map eco-scan's `{meta, rows}` tuple export to repo -> F7 metrics. */
+export function parseEcoScanMetrics(payload, plugins = []) {
+  if (!payload || typeof payload !== 'object' || !payload.meta || !Array.isArray(payload.meta.columns) || !Array.isArray(payload.rows)) {
+    throw new Error('eco-scan payload must contain meta.columns and rows arrays');
+  }
+  if (typeof payload.meta.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(payload.meta.date)
+    || !Number.isFinite(Date.parse(`${payload.meta.date}T00:00:00.000Z`))) {
+    throw new Error('eco-scan meta.date must be YYYY-MM-DD');
+  }
+  const column = new Map(payload.meta.columns
+    .filter((item) => item && typeof item.field === 'string' && Number.isInteger(item.index) && item.index >= 0)
+    .map((item) => [item.field, item.index]));
+  for (const field of ['id', 'stars', 'weekly']) {
+    if (!column.has(field)) throw new Error(`eco-scan meta.columns missing required field: ${field}`);
+  }
+
+  const wanted = new Set(plugins.map((plugin) => String(plugin.repo ?? '').toLowerCase()).filter(Boolean));
+  const byRepo = new Map();
+  const ambiguous = new Set();
+  for (const row of payload.rows) {
+    if (!Array.isArray(row)) continue;
+    const repo = row[column.get('id')];
+    if (typeof repo !== 'string' || !wanted.has(repo.toLowerCase()) || ambiguous.has(repo.toLowerCase())) continue;
+    const key = repo.toLowerCase();
+    if (byRepo.has(key)) {
+      byRepo.delete(key);
+      ambiguous.add(key);
+      continue;
+    }
+    byRepo.set(key, {
+      repo,
+      stars: metricValue(row[column.get('stars')]),
+      weeklyDownloads: metricValue(row[column.get('weekly')]),
+      lastSeenAt: payload.meta.date,
+    });
+  }
+  return { date: payload.meta.date, byRepo, ambiguous: [...ambiguous] };
+}
+
+/** Fetch the public eco-scan export (raw first, jsDelivr mirror on failure). */
+export async function fetchEcoScanMetrics({
+  plugins = [],
+  url = DEFAULT_ECO_SCAN_URL,
+  mirrorUrl = url === DEFAULT_ECO_SCAN_URL ? DEFAULT_ECO_SCAN_MIRROR_URL : '',
+  fetchImpl = fetch,
+  timeoutMs = ECO_SCAN_TIMEOUT_MS,
+} = {}) {
+  const failures = [];
+  const sources = [...new Set([url, mirrorUrl].filter(Boolean))];
+  for (const source of sources) {
+    const { signal, clear } = withTimeout(timeoutMs);
+    try {
+      const response = await getJson(source, { headers: { Accept: 'application/json' }, signal, fetchImpl });
+      if (response.error || !response.json) {
+        failures.push(`${source}: ${response.error ?? `HTTP ${response.status}`}`);
+        continue;
+      }
+      const parsed = parseEcoScanMetrics(response.json, plugins);
+      return { ok: true, source, ...parsed };
+    } catch (error) {
+      failures.push(`${source}: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      clear();
+    }
+  }
+  return { ok: false, error: failures.join(' | ') || 'no eco-scan URLs configured', date: null, byRepo: new Map(), ambiguous: [] };
+}
+
+/**
+ * The eco-scan database is the preferred source for stars/npm weekly metrics.
+ * GitHub API remains authoritative for repository reachability/404, and live
+ * APIs fill metrics that are absent from the catalog-relevant eco-scan rows.
+ */
+export async function collectLiveMetrics({
+  plugins = [],
+  token = '',
+  fetchImpl = fetch,
+  timeoutMs = TIMEOUT_MS,
+  ecoScanTimeoutMs = ECO_SCAN_TIMEOUT_MS,
+  ecoScanUrl = DEFAULT_ECO_SCAN_URL,
+  ecoScanMirrorUrl = ecoScanUrl === DEFAULT_ECO_SCAN_URL ? DEFAULT_ECO_SCAN_MIRROR_URL : '',
+  observedAt = new Date().toISOString(),
+} = {}) {
+  const eco = await fetchEcoScanMetrics({ plugins, url: ecoScanUrl, mirrorUrl: ecoScanMirrorUrl, fetchImpl, timeoutMs: ecoScanTimeoutMs });
+  const rows = await mapLimit(plugins, 6, async (plugin) => {
+    const ecoMetric = eco.ok ? eco.byRepo.get(String(plugin.repo).toLowerCase()) : null;
+    const hasEcoStars = Number.isInteger(ecoMetric?.stars);
+    const hasEcoDownloads = Boolean(plugin.npm) && Number.isInteger(ecoMetric?.weeklyDownloads);
+    const needsNpmApi = Boolean(plugin.npm) && !hasEcoDownloads;
+    const [repo, npm] = await Promise.all([
+      fetchRepo(plugin.repo, { token, fetchImpl, timeoutMs }),
+      needsNpmApi ? fetchNpm(plugin.npm, { fetchImpl, timeoutMs }) : Promise.resolve(null),
+    ]);
+    const useEco = hasEcoStars || hasEcoDownloads;
+    const errors = [repo.error, npm?.error].filter(Boolean);
+    return {
+      pluginId: plugin.id,
+      repo: plugin.repo,
+      status: repo.status,
+      stars: hasEcoStars ? ecoMetric.stars : metricValue(repo.stars),
+      weeklyDownloads: hasEcoDownloads ? ecoMetric.weeklyDownloads : metricValue(npm?.weeklyDownloads),
+      ...(useEco ? { lastSeenAt: eco.date } : (repo.status === 200 ? { lastSeenAt: observedAt.slice(0, 10) } : {})),
+      error: errors.length ? errors.join('; ') : null,
+    };
+  });
+  const source = eco.ok
+    ? `eco-scan:${eco.date} (${new URL(eco.source).hostname}) preferred stars/npm weekly + github:api (404 reachability) + npm:downloads (missing eco fields)`
+    : 'github:api + npm:downloads (eco-scan unavailable; live fallback)';
+  return {
+    metrics: rows,
+    source,
+    ecoScan: { ok: eco.ok, date: eco.date, matched: eco.byRepo.size, ambiguous: eco.ambiguous, error: eco.error ?? null },
+  };
+}
+
 /** Load the previous daily snapshot without ever throwing on missing/corrupt data. */
 export function readSnapshot(file) {
   try {
@@ -132,22 +254,22 @@ export async function main(argv = process.argv.slice(2)) {
     console.log('snapshot: FIXTURE mode — GitHub / npm APIs not actually called');
   } else {
     const token = String(opts.token || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '');
-    metrics = await mapLimit(plugins, 6, async (plugin) => {
-      const [repo, npm] = await Promise.all([
-        fetchRepo(plugin.repo, { token }),
-        plugin.npm ? fetchNpm(plugin.npm) : Promise.resolve(null),
-      ]);
-      // A 404 repo wins over npm numbers: the link is dead regardless of
-      // whether its (orphaned) package is still downloadable.
-      return {
-        pluginId: plugin.id,
-        repo: plugin.repo,
-        status: repo.status,
-        stars: repo.stars,
-        weeklyDownloads: npm?.weeklyDownloads,
-        error: repo.error ?? npm?.error ?? null,
-      };
+    const live = await collectLiveMetrics({
+      plugins,
+      token,
+      ecoScanUrl: String(opts.ecoScanUrl || process.env.ECO_SCAN_URL || DEFAULT_ECO_SCAN_URL),
+      ecoScanMirrorUrl: String(opts.ecoScanMirrorUrl || process.env.ECO_SCAN_MIRROR_URL
+        || (opts.ecoScanUrl || process.env.ECO_SCAN_URL ? '' : DEFAULT_ECO_SCAN_MIRROR_URL)),
+      observedAt: stamp,
     });
+    metrics = live.metrics;
+    source = live.source;
+    if (live.ecoScan.ok) {
+      console.log(`snapshot: eco-scan connected (${live.ecoScan.matched}/${plugins.length} catalog repos matched, date=${live.ecoScan.date})`);
+      if (live.ecoScan.ambiguous.length) console.warn(`snapshot: ambiguous eco-scan repo rows ignored: ${live.ecoScan.ambiguous.join(', ')}`);
+    } else {
+      console.warn(`snapshot: eco-scan unavailable (${live.ecoScan.error}); using live GitHub/npm APIs`);
+    }
   }
 
   const snapshot = buildMetricsSnapshot({ plugins, metrics, day, now: stamp, previous, source });

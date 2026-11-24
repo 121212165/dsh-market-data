@@ -66,6 +66,8 @@ if (!criteria.clipboardHandlerPresent) errors.push('no clipboard.writeText handl
 
 const report = {
   milestone: 'M4',
+  evidenceType: 'static',
+  evidenceNote: '本报告由本地 fixture/static 验收生成；不代表 GitHub Actions 或 Pages live 执行。',
   generatedAt: new Date().toISOString(),
   index: { sha256: sha, generatedAt: index.generatedAt, plugins: index.plugins.length, groups: index.groups.length },
   placeholderPr: { codes: [...new Set(placeholderCodes)] },

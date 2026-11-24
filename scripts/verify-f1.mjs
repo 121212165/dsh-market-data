@@ -2,10 +2,10 @@
  * F1 verification evidence (Node, zero deps). Aggregates the four submission
  * samples + the PR-body/verify-plugin contract into f1-report.json.
  *
- * Honesty note: there is no gh identity or remote in this local worktree, so
- * the GitHub Action itself is NOT executed here. The verify-plugin section is
- * exercised with an injected deterministic report; the real Action runs the
- * vendored tool against the submitted repo.
+ * Honesty note: local gh authentication does not make the target data
+ * repository available. It currently returns 404 and this worktree has no
+ * remote, so the GitHub Action itself is NOT executed here. The verifier
+ * contract below uses injected deterministic output, not a live Action.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -66,18 +66,27 @@ if (!checks.workflowOpensPr) errors.push('workflow does not open a PR with the r
 
 const report = {
   milestone: 'F1',
+  evidenceType: 'static',
   generatedAt: new Date().toISOString(),
   samples: Object.fromEntries(Object.entries(samples).map(([name, result]) => [name, {
     ok: result.ok,
     codes: result.errors.map((e) => e.code),
     draftPath: result.draftPath,
   }])),
-  verifyPlugin: verify,
+  verifyPlugin: {
+    command: verify.command,
+    verifierPath: verify.verifierPath,
+    pluginDir: verify.pluginDir,
+    ok: verify.ok,
+    evidenceType: 'mock',
+    injectedReport: verify.output,
+    note: '注入的确定性输出，仅验证 PR 正文包含关系；不是 GitHub Action 或真实投稿仓执行结果。',
+  },
   criteria: checks,
   errors,
   pass: errors.length === 0,
-  honesty: '本地无 gh 身份/远程，Actions 未实跑；verify-plugin 以注入的确定性报告复验 PR 正文包含关系，'
-    + '真实 Action 在 GitHub 上对投稿 repo 跑 vendored 工具。等价复验口径沿用 M4 诚实声明。',
+  honesty: '本机 gh 已认证，但目标数据仓当前返回 404 且工作区无 remote；Actions 未实跑。'
+    + 'verify-plugin 以 mock 注入输出复验 PR 正文包含关系，不代表真实 Action。',
 };
 writeFileSync(join(ROOT, 'f1-report.json'), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(checks, null, 2));

@@ -12,6 +12,7 @@
     "validate": "node scripts/validate.mjs",
     "test": "node --test",
     "verify:f1": "node scripts/verify-f1.mjs",
+    "verify:f8": "node scripts/verify-f8.mjs",
     "check": "npm run build && npm run build:site && npm run validate"
   },
   "license": "MIT"
