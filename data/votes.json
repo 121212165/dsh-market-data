@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-24T14:38:18.388Z",
+  "generatedAt": "2026-11-24T15:30:04.159Z",
   "source": "discussions:reactions",
   "repository": "121212165/dsh-market-data",
   "category": "General",
   "reaction": "THUMBS_UP",
   "accountAgeDaysMin": 30,
   "summary": {
-    "discussions": 25,
-    "matchedDiscussions": 25,
+    "discussions": 26,
+    "matchedDiscussions": 26,
     "unmatchedDiscussions": 0,
     "rawReactions": 0,
     "countedVotes": 0,
@@ -139,6 +139,19 @@
       "discussionNumber": 10,
       "discussionTitle": "Vote: dsh-plugin-local-deep-search",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/10",
+      "votes": 0,
+      "voters": [],
+      "excluded": {
+        "duplicates": 0,
+        "underAge": 0,
+        "invalid": 0
+      }
+    },
+    {
+      "pluginId": "dsh-plugin-market",
+      "discussionNumber": 28,
+      "discussionTitle": "Vote: dsh-plugin-market",
+      "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/28",
       "votes": 0,
       "voters": [],
       "excluded": {
