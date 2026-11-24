@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T09:00:00.000Z",
-  "source": "fixture:./test/fixtures/votes/discussions.json",
+  "generatedAt": "2026-11-24T14:38:18.388Z",
+  "source": "discussions:reactions",
   "repository": "121212165/dsh-market-data",
-  "category": "Plugin Votes",
+  "category": "General",
   "reaction": "THUMBS_UP",
   "accountAgeDaysMin": 30,
   "summary": {
     "discussions": 25,
     "matchedDiscussions": 25,
     "unmatchedDiscussions": 0,
-    "rawReactions": 51,
-    "countedVotes": 41,
-    "duplicateVotes": 3,
-    "underAgeVotes": 7,
+    "rawReactions": 0,
+    "countedVotes": 0,
+    "duplicateVotes": 0,
+    "underAgeVotes": 0,
     "invalidVotes": 0
   },
   "entries": [
@@ -22,19 +22,8 @@
       "discussionNumber": 1,
       "discussionTitle": "Vote: dsh-plugin-cache-guard",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/1",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -46,22 +35,11 @@
       "discussionNumber": 2,
       "discussionTitle": "Vote: dsh-plugin-cost-ledger",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/2",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
-        "underAge": 1,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -70,21 +48,10 @@
       "discussionNumber": 3,
       "discussionTitle": "Vote: dsh-plugin-deep-scan",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/3",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1005",
-          "login": "erin",
-          "createdAt": "2019-08-20T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
-        "duplicates": 1,
+        "duplicates": 0,
         "underAge": 0,
         "invalid": 0
       }
@@ -94,14 +61,8 @@
       "discussionNumber": 4,
       "discussionTitle": "Vote: dsh-plugin-eco-scan",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/4",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -117,7 +78,7 @@
       "voters": [],
       "excluded": {
         "duplicates": 0,
-        "underAge": 2,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -126,29 +87,8 @@
       "discussionNumber": 6,
       "discussionTitle": "Vote: dsh-plugin-fact-vault",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/6",
-      "votes": 4,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        },
-        {
-          "id": "1005",
-          "login": "erin",
-          "createdAt": "2019-08-20T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -160,14 +100,8 @@
       "discussionNumber": 7,
       "discussionTitle": "Vote: dsh-plugin-family-cards",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/7",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -179,16 +113,10 @@
       "discussionNumber": 8,
       "discussionTitle": "Vote: dsh-plugin-html-report",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/8",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1008",
-          "login": "heidi",
-          "createdAt": "2024-05-05T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
-        "duplicates": 1,
+        "duplicates": 0,
         "underAge": 0,
         "invalid": 0
       }
@@ -198,27 +126,11 @@
       "discussionNumber": 9,
       "discussionTitle": "Vote: dsh-plugin-ide-hub",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/9",
-      "votes": 3,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
-        "underAge": 1,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -227,14 +139,8 @@
       "discussionNumber": 10,
       "discussionTitle": "Vote: dsh-plugin-local-deep-search",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/10",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -246,19 +152,8 @@
       "discussionNumber": 11,
       "discussionTitle": "Vote: dsh-plugin-obsidian-push",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/11",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        },
-        {
-          "id": "1005",
-          "login": "erin",
-          "createdAt": "2019-08-20T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -270,14 +165,8 @@
       "discussionNumber": 12,
       "discussionTitle": "Vote: dsh-plugin-pinboard",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/12",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -289,19 +178,8 @@
       "discussionNumber": 13,
       "discussionTitle": "Vote: dsh-plugin-plugin-forge",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/13",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        },
-        {
-          "id": "1008",
-          "login": "heidi",
-          "createdAt": "2024-05-05T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -313,19 +191,8 @@
       "discussionNumber": 14,
       "discussionTitle": "Vote: dsh-plugin-price-aware",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/14",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -341,7 +208,7 @@
       "voters": [],
       "excluded": {
         "duplicates": 0,
-        "underAge": 1,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -350,14 +217,8 @@
       "discussionNumber": 16,
       "discussionTitle": "Vote: dsh-plugin-prompt-vault",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/16",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1005",
-          "login": "erin",
-          "createdAt": "2019-08-20T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -369,37 +230,11 @@
       "discussionNumber": 17,
       "discussionTitle": "Vote: dsh-plugin-quota",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/17",
-      "votes": 5,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        },
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        },
-        {
-          "id": "1008",
-          "login": "heidi",
-          "createdAt": "2024-05-05T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
-        "duplicates": 1,
-        "underAge": 1,
+        "duplicates": 0,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -408,14 +243,8 @@
       "discussionNumber": 18,
       "discussionTitle": "Vote: dsh-plugin-relay-quota",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/18",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1008",
-          "login": "heidi",
-          "createdAt": "2024-05-05T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -427,14 +256,8 @@
       "discussionNumber": 19,
       "discussionTitle": "Vote: dsh-plugin-session-insights",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/19",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -446,19 +269,8 @@
       "discussionNumber": 20,
       "discussionTitle": "Vote: dsh-plugin-spend-forecast",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/20",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -470,22 +282,11 @@
       "discussionNumber": 21,
       "discussionTitle": "Vote: dsh-plugin-task-forge",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/21",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        },
-        {
-          "id": "1005",
-          "login": "erin",
-          "createdAt": "2019-08-20T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
-        "underAge": 1,
+        "underAge": 0,
         "invalid": 0
       }
     },
@@ -494,14 +295,8 @@
       "discussionNumber": 22,
       "discussionTitle": "Vote: dsh-plugin-token-telemetry",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/22",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1007",
-          "login": "grace",
-          "createdAt": "2023-02-02T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -513,14 +308,8 @@
       "discussionNumber": 23,
       "discussionTitle": "Vote: dsh-plugin-tool-trace",
       "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/23",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1008",
-          "login": "heidi",
-          "createdAt": "2024-05-05T00:00:00Z"
-        }
-      ],
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -529,22 +318,11 @@
     },
     {
       "pluginId": "dsh-plugin-transcript",
-      "discussionNumber": 24,
+      "discussionNumber": 25,
       "discussionTitle": "Vote: dsh-plugin-transcript",
-      "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/24",
-      "votes": 2,
-      "voters": [
-        {
-          "id": "1001",
-          "login": "alice",
-          "createdAt": "2020-01-01T00:00:00Z"
-        },
-        {
-          "id": "1003",
-          "login": "carol",
-          "createdAt": "2022-03-10T00:00:00Z"
-        }
-      ],
+      "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/25",
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
@@ -553,17 +331,11 @@
     },
     {
       "pluginId": "dsh-plugin-transcript-search",
-      "discussionNumber": 25,
+      "discussionNumber": 24,
       "discussionTitle": "Vote: dsh-plugin-transcript-search",
-      "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/25",
-      "votes": 1,
-      "voters": [
-        {
-          "id": "1002",
-          "login": "bob",
-          "createdAt": "2021-06-15T00:00:00Z"
-        }
-      ],
+      "discussionUrl": "https://github.com/121212165/dsh-market-data/discussions/24",
+      "votes": 0,
+      "voters": [],
       "excluded": {
         "duplicates": 0,
         "underAge": 0,
