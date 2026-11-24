@@ -1,0 +1,26 @@
+{
+  "id": "dsh-plugin-market",
+  "repo": "121212165/dsh-plugin-market",
+  "name": "插件市集",
+  "oneLiner": "浏览 DSH 插件组，预检冲突后一键安装、验证和卸载，并支持投票与融合任务书。",
+  "category": "扫描与研究",
+  "entries": [
+    "/market",
+    "market_list",
+    "market_install",
+    "market_uninstall",
+    "market_verify",
+    "market_vote",
+    "market_fuse",
+    "market_doctor"
+  ],
+  "requires": [],
+  "dshRange": ">=0.1.2-rc.1 <0.2.0",
+  "license": "MIT",
+  "author": "121212165",
+  "borrowedFrom": [
+    "121212165/dsh-plugin-family — DSH 插件生态目录、manifest 数据契约与插件组织规范 — MIT"
+  ],
+  "verifiedAt": "2026-11-24",
+  "npm": "@deepseek-ai/dsh-plugin-market"
+}
