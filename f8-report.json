@@ -1,11 +1,11 @@
 {
   "milestone": "F8",
   "evidenceType": "static",
-  "generatedAt": "2026-11-24T15:25:08.811Z",
+  "generatedAt": "2026-11-24T15:35:40.503Z",
   "index": {
     "evidenceType": "static",
-    "sha256": "56293f41c5588858655f3b95137b76e25558774e4c0f165f3dcc034aac3cd774",
-    "generatedAt": "2026-11-24T14:38:18.388Z",
+    "sha256": "c0aa58b6a4199a639d6410e6f5303bc299df0191439bfc4f0806ea7f423c50e3",
+    "generatedAt": "2026-11-24T15:30:04.159Z",
     "plugins": 26
   },
   "weights": {
@@ -40,8 +40,8 @@
     "source": "discussions:reactions",
     "accountAgeDaysMin": 30,
     "summary": {
-      "discussions": 25,
-      "matchedDiscussions": 25,
+      "discussions": 26,
+      "matchedDiscussions": 26,
       "unmatchedDiscussions": 0,
       "rawReactions": 0,
       "countedVotes": 0,
