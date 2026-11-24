@@ -2,11 +2,11 @@
   "milestone": "M4",
   "evidenceType": "static",
   "evidenceNote": "本报告由本地 fixture/static 验收生成；不代表 GitHub Actions 或 Pages live 执行。",
-  "generatedAt": "2026-11-24T13:00:48.831Z",
+  "generatedAt": "2026-11-24T15:25:06.813Z",
   "index": {
-    "sha256": "c039dae8b56fe7f673ce439b0f242a3af54b2cf1b829298e1b27422c010486c4",
-    "generatedAt": "2026-11-23T09:00:00.000Z",
-    "plugins": 25,
+    "sha256": "56293f41c5588858655f3b95137b76e25558774e4c0f165f3dcc034aac3cd774",
+    "generatedAt": "2026-11-24T14:38:18.388Z",
+    "plugins": 26,
     "groups": 6
   },
   "placeholderPr": {

@@ -117,7 +117,7 @@ test('checkRepo-free offline gate: canonical bad fixtures all report red', () =>
   assert.ok(errors.some((e) => e.includes('placeholder')), errors.join('\n'));
 });
 
-test('M1 built-in snapshot carries the canonical 6 groups and 25 plugins', () => {
+test('M1 built-in snapshot mirrors the current canonical catalog', () => {
   // In the main repo the plugin repo is a sibling; from a git worktree it is one level higher.
   const candidates = [
     join(root, '..', 'dsh-plugin-market', 'src', 'snapshot.json'),
@@ -127,7 +127,8 @@ test('M1 built-in snapshot carries the canonical 6 groups and 25 plugins', () =>
   assert.ok(snapshotPath, `built-in snapshot not found in ${candidates.join(' or ')}`);
   const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf8'));
   assert.equal(snapshot.groups.length, 6);
-  assert.equal(snapshot.plugins.length, 25);
+  const catalogCount = readdirSync(join(root, 'data', 'plugins')).filter((name) => name.endsWith('.json')).length;
+  assert.equal(snapshot.plugins.length, catalogCount);
   assert.ok(snapshot.generatedAt, 'snapshot must carry a generatedAt stamp');
   assert.deepEqual(
     snapshot.groups.map((group) => group.id).sort(),

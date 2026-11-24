@@ -78,11 +78,13 @@ test('重复 id：plugin/group 同 id 报 DUPLICATE_ID，组内重复成员报 D
   );
 });
 
-test('真实 data/：25 插件 + 6 组合全绿（0 错误）', () => {
+test('真实 data/：目录中的插件与组合全部全绿（0 错误）', () => {
   const dataset = loadDataset(root);
   const files = [...dataset.plugins, ...dataset.groups].map((entry) => entry.file);
   const report = runGate(files, root);
   assert.deepEqual(report.errors, []);
   assert.equal(report.ok, true);
-  assert.equal(files.length, 31);
+  assert.equal(dataset.plugins.length, 26);
+  assert.equal(dataset.groups.length, 6);
+  assert.equal(files.length, dataset.plugins.length + dataset.groups.length);
 });

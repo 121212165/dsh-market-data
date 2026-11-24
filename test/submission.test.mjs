@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
@@ -66,7 +66,8 @@ test('合格样本：validateDataset + check-pr 两道门禁全绿，草稿字�
   assert.equal(report.draftPath, 'data/plugins/dsh-plugin-submission-demo.json');
   assert.equal(report.checks.validate.ok, true);
   assert.equal(report.checks.checkPr.ok, true);
-  assert.equal(report.checks.validate.pluginCount, 26); // 25 existing + draft
+  const existingPlugins = readdirSync(join(root, 'data', 'plugins')).filter((name) => name.endsWith('.json')).length;
+  assert.equal(report.checks.validate.pluginCount, existingPlugins + 1); // current catalog + draft
   assert.deepEqual(report.draft.borrowedFrom, issue('good').borrowedFrom);
   assert.equal(report.draft.verifiedAt, STAMP);
   assert.equal(report.draft.id, 'dsh-plugin-submission-demo');

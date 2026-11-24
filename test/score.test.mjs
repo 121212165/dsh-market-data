@@ -11,6 +11,7 @@ import {
   computeScores, effectiveVotes, explainScore, loadWeights, scorePlugin, withScores,
 } from '../scripts/score.mjs';
 import { buildIndex } from '../scripts/build-index-lib.mjs';
+import { buildVotesSnapshot } from '../scripts/vote-snapshot-lib.mjs';
 import { renderHtml } from '../scripts/build-site.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,6 +23,12 @@ const readDir = (name) => readdirSync(join(root, 'data', name))
 
 const weights = loadWeights();
 const votes = readJson(join(root, 'data', 'votes.json'));
+const fixtureVotesData = readJson(join(root, 'test', 'fixtures', 'votes', 'discussions.json'));
+const fixtureVotes = buildVotesSnapshot({
+  discussions: fixtureVotesData.discussions,
+  generatedAt: fixtureVotesData.generatedAt,
+  now: fixtureVotesData.generatedAt,
+});
 const fusions = readJson(FUSIONS_FILE);
 const plugins = readDir('plugins');
 const groups = readDir('groups');
@@ -65,13 +72,13 @@ test('刷票降权：同账号重复票与未成年账号票不计入有效票',
 });
 
 test('刷票降权：F2 快照的有效票不是原始 reaction 总数', () => {
-  const scores = computeScores({ plugins, groups, fusions, votes, weights, now: timestamp });
+  const scores = computeScores({ plugins, groups, fusions, votes: fixtureVotes, weights, now: fixtureVotes.generatedAt });
   const counted = [...scores.values()]
     .reduce((sum, s) => sum + part(s, 'validVotes').count, 0);
-  assert.equal(counted, votes.summary.countedVotes);
-  assert.ok(votes.summary.rawReactions > counted, '原始数据含被排除票');
-  assert.notEqual(counted, votes.summary.rawReactions);
-  assert.equal(votes.summary.duplicateVotes + votes.summary.underAgeVotes > 0, true);
+  assert.equal(counted, fixtureVotes.summary.countedVotes);
+  assert.ok(fixtureVotes.summary.rawReactions > counted, 'fixture 原始数据含被排除票');
+  assert.notEqual(counted, fixtureVotes.summary.rawReactions);
+  assert.equal(fixtureVotes.summary.duplicateVotes + fixtureVotes.summary.underAgeVotes > 0, true);
 });
 
 /* ------------------------------------------------------------------ *
@@ -152,13 +159,13 @@ test('任一条目都有完整 scoreBreakdown，且每项都写来源 id', () =>
 
 test('withScores / buildIndex 串联后，被组合与被融合分项带真实的组 id / 融合 id', () => {
   const snapshot = readJson(join(root, 'data', 'snapshots', 'latest.json'));
-  const built = buildIndex({ plugins, groups, votes, snapshot, now: timestamp });
-  const scored = withScores(built, { fusions, votes, weights, now: timestamp });
+  const built = buildIndex({ plugins, groups, votes: fixtureVotes, snapshot, now: fixtureVotes.generatedAt });
+  const scored = withScores(built, { fusions, votes: fixtureVotes, weights, now: fixtureVotes.generatedAt });
   const quota = scored.plugins.find((p) => p.id === 'dsh-plugin-quota');
 
   assert.deepEqual(part(quota, 'grouped').sources.map((s) => s.id), ['starter-three']);
   assert.deepEqual(part(quota, 'fused').sources.map((s) => s.id), ['fuse-quota-cost-ledger']);
-  assert.equal(part(quota, 'validVotes').count, 5);
+  assert.equal(part(quota, 'validVotes').count, fixtureVotes.entries.find((entry) => entry.pluginId === quota.id).votes);
   assert.equal(quota.score, 17);
 });
 

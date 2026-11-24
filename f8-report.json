@@ -1,12 +1,12 @@
 {
   "milestone": "F8",
   "evidenceType": "static",
-  "generatedAt": "2026-11-24T13:00:50.935Z",
+  "generatedAt": "2026-11-24T15:25:08.811Z",
   "index": {
     "evidenceType": "static",
-    "sha256": "c039dae8b56fe7f673ce439b0f242a3af54b2cf1b829298e1b27422c010486c4",
-    "generatedAt": "2026-11-23T09:00:00.000Z",
-    "plugins": 25
+    "sha256": "56293f41c5588858655f3b95137b76e25558774e4c0f165f3dcc034aac3cd774",
+    "generatedAt": "2026-11-24T14:38:18.388Z",
+    "plugins": 26
   },
   "weights": {
     "evidenceType": "static",
@@ -36,17 +36,17 @@
     }
   },
   "voting": {
-    "evidenceType": "fixture",
-    "source": "fixture:./test/fixtures/votes/discussions.json",
+    "evidenceType": "live",
+    "source": "discussions:reactions",
     "accountAgeDaysMin": 30,
     "summary": {
       "discussions": 25,
       "matchedDiscussions": 25,
       "unmatchedDiscussions": 0,
-      "rawReactions": 51,
-      "countedVotes": 41,
-      "duplicateVotes": 3,
-      "underAgeVotes": 7,
+      "rawReactions": 0,
+      "countedVotes": 0,
+      "duplicateVotes": 0,
+      "underAgeVotes": 0,
       "invalidVotes": 0
     },
     "liveGitHubValidation": "unverified: target repository currently returns 404 and the data repository has no remote"
@@ -81,5 +81,5 @@
   },
   "errors": [],
   "pass": true,
-  "honesty": "本报告为本地静态验收；有效票来源类型=fixture。没有将 fixture 票数描述为 GitHub live，目标仓 live 投票、Actions 与 Pages 均未验证。"
+  "honesty": "本报告为本地静态验收；有效票来源类型=live。没有将 fixture 票数描述为 GitHub live，目标仓 live 投票、Actions 与 Pages 均未验证。"
 }
