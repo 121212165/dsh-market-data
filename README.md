@@ -50,9 +50,10 @@ node scripts/submission.mjs check --issue test/fixtures/submissions/<样本>.md 
 每个插件一条 Discussion（标题 `Vote: <plugin-id>`，正文带 `<!-- dsh-market-plugin-id: <plugin-id> -->` 稳定标记），只统计 👍 reaction：
 
 ```bash
-# 真跑（需要 token；GraphQL 必须认证）。脚本先分页读取 discussionCategories，按名称取 category id；
+# 真跑（需要 token；GraphQL 必须认证）。新仓先使用已有的 `General` 分类（GitHub GraphQL 不提供创建分类的 mutation）；
+# 脚本分页读取 discussionCategories，按分类名称取 category id；
 # 再读取受支持的 repository.discussions connection 并按 category.id 本地筛选。
-GITHUB_TOKEN=... node scripts/vote-snapshot.mjs --category "Plugin Votes"
+GITHUB_TOKEN=... node scripts/vote-snapshot.mjs --category "General"
 
 # 无 token 的离线复验（fixture 不访问 GitHub API）
 node scripts/vote-snapshot.mjs --fixture test/fixtures/votes/discussions.json

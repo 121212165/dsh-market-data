@@ -13,7 +13,9 @@
 export const REACTION = 'THUMBS_UP';
 export const DEFAULT_MIN_ACCOUNT_AGE_DAYS = 30;
 export const DEFAULT_REPOSITORY = '121212165/dsh-market-data';
-export const DEFAULT_CATEGORY = 'Plugin Votes';
+// GitHub Discussions categories are UI-managed and have no GraphQL create mutation.
+// The restored repository starts with the built-in General category.
+export const DEFAULT_CATEGORY = 'General';
 
 /** Bodies carry a stable id so a renamed plugin cannot break the link. */
 export const ID_MARKER_RE = /<!--\s*dsh-market-plugin-id:\s*(dsh-plugin-[a-z0-9-]+)\s*-->/i;
