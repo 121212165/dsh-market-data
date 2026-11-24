@@ -30,6 +30,11 @@ jobs:
       - name: Reject placeholder-only PRs
         run: node scripts/check-pr.mjs
 
+      # Generated read contracts must be rebuilt from the PR's data/ changes
+      # before validate compares plugin/group counts and snapshot parity.
+      - name: Rebuild generated index and snapshots
+        run: node scripts/build-index.mjs
+
       # Dataset gate maintained by the M0 data layer (index/schema/id rules).
       - name: Validate dataset
         run: node scripts/validate.mjs
