@@ -717,8 +717,8 @@
       "npm": "@deepseek-ai/dsh-plugin-market",
       "votes": 0,
       "stars": 1,
-      "weeklyDownloads": 521896,
-      "lastSeenAt": "2026-11-26",
+      "weeklyDownloads": 507819,
+      "lastSeenAt": "2026-11-27",
       "score": 5,
       "scoreBreakdown": [
         {
@@ -1914,7 +1914,7 @@
       "stars": 1,
       "weeklyDownloads": 23,
       "deadSince": "2026-11-09",
-      "demotionReason": "仓库 404 已持续 17 天（自 2026-11-09）",
+      "demotionReason": "仓库 404 已持续 18 天（自 2026-11-09）",
       "score": 5,
       "scoreBreakdown": [
         {

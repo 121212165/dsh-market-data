@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-26T11:02:21.461Z",
-  "date": "2026-11-26",
+  "generatedAt": "2026-11-27T10:59:26.175Z",
+  "date": "2026-11-27",
   "source": "eco-scan:2026-11-16 (raw.githubusercontent.com) preferred stars/npm weekly + github:api (404 reachability) + npm:downloads (missing eco fields)",
   "summary": {
     "total": 26,
@@ -147,9 +147,9 @@
       "status": 200,
       "live": true,
       "stars": 1,
-      "weeklyDownloads": 521896,
+      "weeklyDownloads": 507819,
       "deadSince": null,
-      "lastSeenAt": "2026-11-26",
+      "lastSeenAt": "2026-11-27",
       "fallback": false,
       "error": null
     },
